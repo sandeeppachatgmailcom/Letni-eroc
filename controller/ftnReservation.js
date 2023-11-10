@@ -154,8 +154,6 @@ const result =await rooms.depart.aggregate([{
         roomCount:1
     }
 }])
- 
- 
 return result
 }
 
