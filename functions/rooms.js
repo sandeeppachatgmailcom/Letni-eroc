@@ -15,7 +15,6 @@ async function SaveRooms(Roomobj,fileObj) {
         const files = fileObj;
         
         const imagePaths = fileObj.map((image) => 'http://localhost:5200/Images/'+image) ;
-        
         timeStamp = Date.now();
         if (!Roomobj.roomIndex) Roomobj.roomIndex = await adminController.getIndex('DEPARTMENT');
         if (!Roomobj.blocked) { Roomobj.blocked = false }
@@ -56,13 +55,11 @@ async function SaveRooms(Roomobj,fileObj) {
             companyIndex:Roomobj.companyIndex
         }
         let result =await modelDepart.depart.updateOne({ roomIndex: Roomobj.roomIndex }, room, { upsert: true })
-       
-        return result;
+       return result;
     }
 
 async function loadSaleRoom(SearchKey) {
         try {
-            
              let result = await modelDepart.depart.find({roomName: { $regex: `^${SearchKey}`, $options: 'i' }  , deleted: false });
                 return result;
         } catch (error) {
@@ -72,10 +69,8 @@ async function loadSaleRoom(SearchKey) {
     }
 async function deleteRoom(roomIndex){
         let result = await modelDepart.depart.updateOne({roomIndex:roomIndex},{$set:{deleted:true}})
-        
         return result;
     }
-    
 async function getRoomsWithTariffDetails() {
         try {
           const results = await modelDepart.depart.aggregate([
