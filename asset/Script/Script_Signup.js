@@ -504,7 +504,7 @@ async function verifyandupdate() {
         document.getElementById('IdInfoText').innerText='All fields are Mandatory'
     }
     console.log(email,phone,(document.getElementById('Signup_name_text').value));
-    if(!email&&!phone&&(document.getElementById('Signup_name_text').value)){
+    if(!email&&(document.getElementById('Signup_name_text').value)){
         openModal()
         console.log(data);
         setTimeout(async () => {
