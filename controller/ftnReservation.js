@@ -164,7 +164,7 @@ return result
 
 async function loadreservationByCustID(custID){
      
-    const result = await frontOffice.checkIn.find({createUser:custID,delete:false})
+    const result = await frontOffice.checkIn.find({createUser:custID,delete:false}).sort({ reservationNumber: -1 })
     return result;
 }
 
