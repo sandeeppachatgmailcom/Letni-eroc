@@ -155,6 +155,7 @@ async function verifyUser(userObject){
             message:"not a valid user"
         }
         }
+
         else{
             verified = {
                 verified: false,
@@ -198,5 +199,6 @@ async function findUser(sessionID) {
     console.log(activeUser);
     return activeUser
 }
+
 const HumanResource = ModelHumanResource.HumanResource;
 module.exports = {findUser, HumanResource, SearchHuman, saveHuman, deleteHuman, combiSearchHuman,SearchHumanbyUsername,verifyUser,changePassword };
