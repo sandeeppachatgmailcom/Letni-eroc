@@ -174,12 +174,15 @@ function readmore() {
       BudgetEnd:document.getElementById("idBudgetEnd").value,
       SelectTariff:document.getElementById("idSelectTariff").value
     }
-  const result = await fetch('/custom/loadHotelDetails',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(data)})
-  .then(res=>{
-    return res.json()
-  }).catch(err=>{
-    console.log(err);
-  }) 
+    let  result = '';
+    if(data.StartDate && data.EndDate&&data.GuestCount&&data.RoomCount){
+       result = await fetch('/custom/loadHotelDetails',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(data)})
+      .then(res=>{
+        return res.json()
+      }).catch(err=>{
+        console.log(err);
+      }) 
+
   closeModal();
   let innerhtml =' ';
 
@@ -200,8 +203,9 @@ function readmore() {
           <img src="${result.image3}" class="card-img-top w-100 p-1 h-100" alt="...">
       </div>
   </div>
-    <div class="container-fluid d-flex justify-content-evenly border btn" >
-         <h6 class="card-title" style="text-transform: uppercase;">${result.firstName}</h6> 
+    <div class="container-fluid   justify-content-evenly border btn" >
+         <h4 class="card-title" style="text-transform: uppercase;">${result.firstName}</h4> 
+         <small> ${result.Companydiscription} </small>
     </div>     
     <div class="container-flex d-flex flex-wrap w-100" id="idprinttariffcard" >
     </div>
@@ -261,12 +265,12 @@ if(! i.totalRoom) i.totalRoom=1;
           <div class="container-flex d-flex  col-12 p-0 m-0  ">
                
                   <small class="btn col-3" style="font-size:15px"  id="basic-addon1"> Room</small>
-                  <input type="Number" name="roomCount" value="${parseInt(data.RoomCount)}"
+                  <input type="Number" name="roomCount" min="1" value="${parseInt(data.RoomCount)}"
                   onChange="calculateTotal(${i.SpecialRent},${i.extraPerson},'${i.tariffIndex}')"
                   max="${i.totalRoom}" id="idTotalRoomReq${i.tariffIndex}" class="form-control col-3" >
               
-                   <small  class="btn col-3" id="basic-addon1" style="font-size:15px"> Guest</small>
-                   <input name="guestCount" type="Number" value="${parseInt(data.GuestCount)}"
+                   <small  class="btn col-3" id="idguestcountbooking" style="font-size:15px"> Guest</small>
+                   <input name="guestCount" type="Number" min="1" value="${parseInt(data.GuestCount)}"
                       onkeypress="calculateTotal(${i.SpecialRent},${i.extraPerson},'${i.tariffIndex}')"
                       class="form-control col-3 " id="idTotalGuestOccs${i.tariffIndex}" placeholder="Username"
                       aria-label="Username" aria-describedby="basic-addon1">
@@ -287,11 +291,12 @@ if(! i.totalRoom) i.totalRoom=1;
   
   document.getElementById("idprinttariffcard").innerHTML ='';
   document.getElementById("idprinttariffcard").innerHTML =  innerhtml;
+  document.getElementById("idimageincarosal").hidden = true
   
   document.getElementById("idCheckinPlan").innerHTML =''
    
   }}  
-   
+}  
   
 }
 function checkinPlan(){
@@ -322,12 +327,13 @@ async function confirmReservation(inputString){
   const totalRoom =parseInt(document.getElementById("idTotalRoomReq"+tariffcode).value);
   const days = parseInt(document.getElementById("iddaycount"+tariffcode).textContent);
    
-  const totalRoomCapacity = 5*totalRoom  
+  
   const allowedPax = totalRoom * 2;
   let  additionalPax = totalPax -allowedPax;
   if (additionalPax<0) additionalPax =0;
+  const totalRoomCapacity = (additionalPax+2)*totalRoom  
   const totalAmpunt = ((totalRoom*SpecialRent)+(additionalPax*extraPax))*days;
-  console.log((totalRoom*SpecialRent),(additionalPax*extraPax)),days,'new test';
+  
   if(totalPax>totalRoomCapacity) {document.getElementById("idTotalGuestOccs"+tariffcode).style.color = 'red';
   document.getElementById("idTotalGuestOccs"+tariffcode).max=totalRoomCapacity
 }

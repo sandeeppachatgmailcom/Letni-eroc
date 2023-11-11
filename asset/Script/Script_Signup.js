@@ -609,6 +609,8 @@ else{
       }
       else {
         otpButton.textContent ='Resend OTP'
+        otpButton.disabled = false ;
+
         data ={
             email:document.getElementById("idverify_Email").value
         }
@@ -634,9 +636,8 @@ else{
   
     updateTimer();
   }
+  
 async function resendOtp(email,count){
-     
-     
     data ={
         email: document.getElementById(email).value
     }
@@ -655,9 +656,6 @@ async function resendOtp(email,count){
 }
 else alert('emaid id could not be blank ')
 }
-
-
-
 
 
 
@@ -901,6 +899,14 @@ async function verifyOtp(dofunc){
             button: "OK",
           }).then((value)=>{
             window.location.reload();
+          })
+    }
+    else if(!result.verified){
+        swal({
+            title: "failed",
+            text: "otp Validation failed!",
+            icon: "error",
+            button: "OK",
           })
     }
 }

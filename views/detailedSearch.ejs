@@ -4,9 +4,17 @@
 <%- include('MenuBarCustomer') %>
     
         <div class="container-flex">
-             <%  console.log(inputData) %>
-                <div class="container-fluid border rounded" style="background-color: rgba(65, 90, 69, 0.762) ; ">
-                    <div class="container-flex">
+             
+            <div id="idcarouselHomePage" class="carousel slide carousel-fade col-12 h-100" data-bs-ride="carousel"style="height:60vh"  >
+                <div class="carousel-inner bg-secondary" id="idimageincarosal" style="height:40vh">
+                    <% result.forEach((company,index) => { %>
+                        <div   class="carousel-item h-100 active d-flex flex-column justify-content-center align-items-start h-100 " style=" background-image: url('<%= company.image1 %>');height: 40vh; background-position: center; background-size: cover;">
+                             
+                        </div> 
+                    <% }) %>
+                </div>
+                <div class="container border rounded mt-3 mb-3" style="background-color:rgba(65, 90, 69, 0.762);" >
+                    <div class="container-flex ">
                         <!-- Main Search box Start here -->
                     <form action="/custom/customSearch" method="post"> 
                         <div class="container-flex row">
@@ -38,7 +46,7 @@
                                 style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
                                 <label   class=" text-left input-group-text text-light btn col-4"
                                     style="background-color: transparent;" id="iDServiceImages1btn2">Check-in</label>
-                                <input name="CheckinDate" id="idStartDate" type="datetime-local" value="<%=  inputData.CheckinDate  %>" class="text-light SearchTextBox col-8">
+                                <input name="CheckinDate" id="idStartDate" onchange="midatetimesetting();" type="datetime-local" value="<%=  inputData.CheckinDate  %>" class="text-light SearchTextBox col-8">
                             </div>
 
                             <div class="col-lg-3 col-sm-12 d-flex container-fluid"
@@ -51,11 +59,9 @@
                                 style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
                                 <label   class=" text-left input-group-text text-light btn col-6"
                                     style="background-color: transparent;" id=" iDServiceImages1btn2">GUEST</label>
-                                   
                                 <input id="idGuestCount" type="number" name="GuestCount" value="<%= inputData.GuestCount %>"
-                                    class="text-light col-6    SearchTextBox">
+                                class="text-light col-6    SearchTextBox">
                             </div>
-                           
                         </div>
                         <div class="container-flex row" >
                             <div class="col-lg-3  col-sm-12 d-flex container-flex"
@@ -72,7 +78,7 @@
                                           Minimum Limit 
                                     </label>
                                     <input id="idBudgetFrom"  style="background-color:rgba(36, 74, 36, 0);" type="number"
-                                    value="<%=inputData.budgetStart %>"  onchange="" name="budgetStart" class="text-right text-light col-6  SearchTextBox w-100">
+                                    min="0" value="<%=inputData.budgetStart %>"  onchange="" name="budgetStart" class="text-right text-light col-6  SearchTextBox w-100">
                                 
                                 
     
@@ -84,7 +90,7 @@
                                     id="iDServiceImages1btn2">Maximum 
                                     budget</label>
                                 <input id="idBudgetEnd" style="background-color:rgba(36, 74, 36, 0);" type="number"
-                                    onchange="" value="<%= inputData.budgetEnd  %>" name="budgetEnd" class="text-right text-light col-6 SearchTextBox">
+                                    min="0" onchange="" value="<%= inputData.budgetEnd  %>" name="budgetEnd" class="text-right text-light col-6 SearchTextBox">
                                  
                             </div>
                             <div hidden class="col-lg-3 col-sm-12 "style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
@@ -109,32 +115,48 @@
                         <!-- Main Search box Ends here -->
                     </div>
                 </div>
-                    <div class="container-flex  border w-100 rounded d-flex flex-wrap  col-12"  id="idTariffDetails">
+            </div>  
+            
+                <div class="container-flex w-100 position-relative   d-flex flex-wrap  col-12"  id="idTariffDetails">
                         <% result.forEach(element => { %>
-                          <div class="card col-12 container-flex col-sm-6 col-md-4 col-lg-3 p-1"  >
-                                <div class="container-flex h-100"  >
-                                   <img class="w-100 rounded" style="height: 30%;" name="companyImage" value="<%= element.image1 %>" src="<%= element.image1 %>" class="card-img-top" alt="...">
-                                    <div class="card-body container-flex flex-wrap " style="overflow: hidden;"   >
-                                        <h3 class="card-title" onclick="drilldown('divHotel<%= element.CompanyID %>' ,'100')"  data-hotelTariffs="${result[i].tariffDetails}" style="text-transform: uppercase"> <%= element.lastName %></h3> <small class="card-text" style="text-transform: uppercase; height: fit-content;"  ><%= element.district %> </small> <br>
-                                        <small class="card-text bi bi-telephone-fill" style="height: fit-content;"  > <%= element.contactNumber %></small><br>
-                                        <small class="card-text bi bi-envelope-at"  style="height: fit-content;"  >  <%= element.email %> </small>
-                                        <small class="card-text" style="height:100px" id="divHotel<%= element.CompanyID %>" > <%= element.Companydiscription %>   </small>
-                                    </div>
+                          <div class="card col-12 container-flex col-sm-6 col-md-4 col-lg-2 p-2 " style="animation-fill-mode: forwards;" >
+                                <div class="container-flex "  >
+                                   
+                                    <button value="<%=element.CompanyID%>"  onclick="loadHotelBasedResult(event.target.value)" class="card-body container-flex d-flex flex-wrap rounded btn col-12" style="overflow: hidden; background-image:url('<%= element.image1 %>')  ; height: 180px;  background-position: center ; background-size: cover; "    >
+                                        <h6 class="position-absolute bottom-0 start-0 text-left text-light w-100" onclick="drilldown('divHotel<%= element.CompanyID %>' ,'100')"  data-hotelTariffs="${result[i].tariffDetails}" style="text-transform: uppercase ; background-color: rgba(65, 90, 69, 0.762);"> <%= element.lastName %>  <br> <small style="font-size: 10px; text-transform: capitalize;"   ><%= element.StreetName %> , <%= element.district %> </small></h6> <br>  
+                                        <!-- <button name="submitCompanyDetails" value="<%=element.CompanyID%>"  onclick="loadHotelBasedResult(event.target.value)" type="button" value="<%=  element.CompanyID  %>" class=" btn">Details</button> -->
+                                        <!-- <small class="card-text bi bi-telephone-fill" style="height: fit-content;"  > <%= element.contactNumber %></small><br>
+                                        <small class="card-text bi bi-envelope-at"  style="height: fit-content;"  >  <%= element.email %> </small> -->
+                                        <!-- <small class="card-text" style="height:100px" id="divHotel<%= element.CompanyID %>" > <%= element.Companydiscription %>   </small> -->
+                                        </button>
                                 </div>
-                                    <div class="card-footer">
-                                        <button name="submitCompanyDetails" value="<%=element.CompanyID%>"  onclick="loadHotelBasedResult(event.target.value)" type="button" value="<%=  element.CompanyID  %>" class="btn btn-primary">Details</button>
-                                    </div>
+                                
                                 </div>
                                    
                             <% }) %>
                 </div>
                  
         </div>
-        <div class="container-fluid" id="idConfirmBooking">
+        <div class="container-fluid " id="idConfirmBooking">
                  
         </div>
     
+<script>
+  
+    document.addEventListener('DOMContentLoaded', function() {
+       
+    document.getElementById('idStartDate').min =new Date().toISOString().slice(0, 16);
+    document.getElementById('idEndDate').min =new Date().toISOString().slice(0, 16);
+  
 
+});
+
+function midatetimesetting(){
+    document.getElementById('idEndDate').min = document.getElementById('idStartDate').value
+    
+}
+
+</script>
     
     <script src="/Script/customerSearch.js"> </script>
     <script src="/Script/Companies.js"> </script>

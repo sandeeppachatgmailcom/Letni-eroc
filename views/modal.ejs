@@ -189,11 +189,11 @@
                     <div class=" container-fluid d-flex flex-wrap col-sm-12">
                         <button id="Bt_Save_Signup" onclick="verifyandupdate()" type="button"
                             class="btn btn-success  col-sm-12 m-1 col-lg-2 bi bi-cursor-fill" value="signup"> SAVE </button>
-                        <button id="Bt_Cancel_signup" onclick="CancelEntry()" type="button"
+                        <button hidden id="Bt_Cancel_signup" onclick="CancelEntry()" type="button"
                             class="btn btn-danger  col-sm-12 m-1 col-lg-2 bi bi-x-square"> CANCEL </button>
-                        <button id="Bt_verifyOtp"  data-bs-toggle="modal" data-bs-target="#idEnterOtp" type="button"
+                        <button hidden id="Bt_verifyOtp"  data-bs-toggle="modal" data-bs-target="#idEnterOtp" type="button"
                              class="btn btn-primary col-lg-3   col-sm-12 m-1 bi-envelope-check-fill"> VALIDATE </button>
-                        <button id="Bt_Login_back" onclick="loadHome()" type="button"
+                        <button hidden id="Bt_Login_back" onclick="loadHome()" type="button"
                             class="btn btn-success col-sm-12 m-1 col-lg-2 bi bi-person-square"> LOGIN </button>
                     </div>
                 </div>
@@ -242,10 +242,10 @@
                 <div class="container-fluid d-flex flex-wrap  ">
                     <div class="container-fluid  d-flex flex-row  ">
                         <button id="idOtpBt_Save_Signup"   type="button"
-                            class="btn btn-success  bi bi-cursor-fill" onclick="verifyOtp('validate')"  value="signup"> SUBMIT </button>
-                        <button id="Bt_resendOtp"   type="button" onclick="resendOtp('idverify_Email','Bt_resendOtp')"
-                            class="btn btn-danger "> SEND OTP </button>
-                        <button id="Bt_signinOtp"  data-bs-toggle="modal" data-bs-target="#customerLogin" type="button" class="btn btn-primary  bi bi-envelope-check-fill"> LOG-IN  </button>
+                            class="btn btn-success  bi bi-cursor-fill" onclick="verifyOtp('validate')"  value="signup"> sign in</button>
+                        <button id="Bt_resendOtp" disabled  type="button" onclick="resendOtp('idverify_Email','Bt_resendOtp')"
+                            class="btn noborder  text-primary text-left "> SEND OTP </button>
+                        <button id="Bt_signinOtp"  data-bs-toggle="modal" data-bs-target="#customerLogin" type="button" class="btn btn-primary  bi bi-envelope-check-fill" hidden> LOG-IN  </button>
                         <button id="openResetModal"  data-bs-toggle="modal" data-bs-target="#resetPasswordafterOtp" style="display: none;" type="button" class="btn btn-warning bi bi-x-square"> LOG-IN  </button>
                    </div>
                 </div>
