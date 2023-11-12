@@ -168,10 +168,10 @@ function readmore() {
       EndDate:document.getElementById("idEndDate").value,
       hotelId:companyID,
       district:document.getElementById("idDitrictName").value,
-      GuestCount:document.getElementById("idGuestCount").value,
-      RoomCount:document.getElementById("idRoomCount").value,
-      BudgetFrom:document.getElementById("idBudgetFrom").value,
-      BudgetEnd:document.getElementById("idBudgetEnd").value,
+      GuestCount:document.getElementById("idGuestCount").value?document.getElementById("idGuestCount").value:1,
+      RoomCount:document.getElementById("idRoomCount").value?document.getElementById("idRoomCount").value:0,
+      BudgetFrom:document.getElementById("idBudgetFrom").value?document.getElementById("idBudgetFrom").value:0,
+      BudgetEnd:document.getElementById("idBudgetEnd").value?document.getElementById("idBudgetEnd").value:10000,
       SelectTariff:document.getElementById("idSelectTariff").value
     }
     let  result = '';
@@ -193,19 +193,19 @@ function readmore() {
   document.getElementById("idTariffDetails").innerHTML = `
   <div class="container-flex" >
     <div class="container-fluid d-flex flex-wrap border btn "  >
-      <div class="col-12 col-sm-4 col-md-4" style="height:400px;">
-          <img src="${result.image1}" class="card-img-top w-100 p-1 h-100" alt="...">
+      <div class="col-12 col-sm-4 col-md-4" style="height:300px;">
+          <img src="${result.image1}" class="rounded card-img-top w-100 p-1 h-100" alt="...">
       </div>
-      <div class="col-12 col-sm-4 col-md-4"style="height:400px;">
-          <img src="${result.image2}" class="card-img-top w-100 p-1 h-100" alt="...">
+      <div class="col-12 col-sm-4 col-md-4"style="height:300px;">
+          <img src="${result.image2}" class="rounded card-img-top w-100 p-1 h-100" alt="...">
       </div>
-      <div class="col-12 col-sm-4 col-md-4" style="height:400px;">
-          <img src="${result.image3}" class="card-img-top w-100 p-1 h-100" alt="...">
+      <div class="col-12 col-sm-4 col-md-4" style="height:300px;">
+          <img src="${result.image3}" class="rounded card-img-top w-100 p-1 h-100" alt="...">
       </div>
   </div>
     <div class="container-fluid   justify-content-evenly border btn" >
          <h4 class="card-title" style="text-transform: uppercase;">${result.firstName}</h4> 
-         <small> ${result.Companydiscription} </small>
+         <small class="text-left" style="font-size:13px"> ${result.Companydiscription} </small>
     </div>     
     <div class="container-flex d-flex flex-wrap w-100" id="idprinttariffcard" >
     </div>
@@ -239,22 +239,22 @@ if(i.isActive){
 let bodycolorclass = 'btn-cyan-700'
 if((i.SpecialRent>= Number(document.getElementById("idBudgetFrom").value)) &&(i.SpecialRent<= Number(document.getElementById("idBudgetEnd").value)))
 {
-  bodycolorclass = ' rgb(0,0,0,.029)'
+  bodycolorclass = ' rgb(82,105,86)'
 }
 else {
-   bodycolorclass = 'rgb(201,196,191)'
+   bodycolorclass = 'rgb(82,105,86,.5)'
 
 }
 if(! i.totalRoom) i.totalRoom=1;
   
   innerhtml+=`
-  <div class="card container-flex col-lg-3 col-sm-12 p-1 "  style="background-color:${bodycolorclass}"  >
+  <div class="p-1 container-flex col-lg-3 col-sm-12  text-light"    >
     <form id="idFormViewReservation" action="/custom/viewReservation" method="post">
       <div onClick="calculateTotal(${i.SpecialRent},${i.extraPerson},'${i.tariffIndex}', ${diffDays})"
-          class="card-body " >
-          <div class = "btn text-primary " style="height: 30px; wrap:nowrap ; overflow:hidden"  onClick="drilldown('iDtariffDiscript${i.tariffIndex}','30')" id="iDtariffDiscript${i.tariffIndex}" class="container-flex card-title">${i.tariffName} : ${i.SpecialRent}/- (2pax)  <br>         <small class="card-text btn   "   >${i.Discription}</small>  </div> <br>
+          class="card-body m-1 border rounded p-2" style="background-color:${bodycolorclass}">
+          <div class = "btn text-warning   " style="height: 30px; wrap:nowrap ; overflow:hidden"  onClick="drilldown('iDtariffDiscript${i.tariffIndex}','30')" id="iDtariffDiscript${i.tariffIndex}" class="container-flex card-title "><small> ${i.tariffName} : ${i.SpecialRent}/- (2pax)  </small> <br>         <small class="card-text btn text-left   "style="font-size:13px"   >${i.Discription}</small>  </div> <br>
           
-          <small > ${i.totalRoom-i.reservationCount} rooms available, Extra pax:${i.extraPerson}/-</small><br>
+          <small class="text-left"> ${i.totalRoom-i.reservationCount} (rooms) available, Extra pax:${i.extraPerson}/-</small><br>
               <select id="idCheckinPlan" hidden class="input-group-text  btn col-2" name="roomCategoryID">
               <option value="0">none</option>
               </select>

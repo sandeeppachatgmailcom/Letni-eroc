@@ -73,7 +73,30 @@ const postcustomSearch = async (req,res)=>{
     const tariff = await tariffs.loadtariff('')
     let district = new Set();
     let  inputData = req.body;
+     
     
+      
+
+   
+    const currentDateTimeString = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+    const month = currentDateTimeString.slice(0, 2);
+    const day = currentDateTimeString.slice(3, 5);
+    const year = currentDateTimeString.slice(6, 10);
+    const time = currentDateTimeString.slice(12, 23);
+    const [hour, minute, secAndPeriod] = time.split(':');
+    const [sec, period] = secAndPeriod.split(' ');
+    if(hour.length==1)hour = '0'+hour;
+    if (period == 'PM') hour = hour.parseInt() + 12;
+    const mytime = year+'-'+month+'-'+day+'T'+hour+':'+minute
+    console.log( typeof( mytime),typeof(new Date().toISOString().slice(0,16)))
+    console.log(   mytime ,new Date().toISOString().slice(0,16))
+    if(!inputData.CheckinDate) inputData.CheckinDate = mytime
+    if(!inputData.CheckoutDate) inputData.CheckoutDate =  mytime
+    if(!inputData.GuestCount) inputData.GuestCount='1'
+    if(!inputData.nameRoomCount) inputData.nameRoomCount='1'
+    if(!inputData.budgetStart) inputData.budgetStart=0
+    if(!inputData.budgetEnd) inputData.budgetEnd=10000
+    console.log(inputData);
     inputData.GuestCount = parseInt(inputData.GuestCount)
     inputData.nameRoomCount = parseInt(inputData.nameRoomCount)
     const pincode = generalData.forEach(element => {
@@ -98,25 +121,36 @@ const getcustomSearch = async (req,res)=>{
     let district = new Set();
      
     let  inputData = req.body;
+    const currentDateTimeString = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+    const month = currentDateTimeString.slice(0, 2);
+    const day = currentDateTimeString.slice(3, 5);
+    const year = currentDateTimeString.slice(6, 10);
+    const time = currentDateTimeString.slice(12, 23);
+    const [hour, minute, secAndPeriod] = time.split(':');
+    const [sec, period] = secAndPeriod.split(' ');
+    if(hour.length==1)hour = '0'+hour;
+    if (period == 'PM') hour = hour.parseInt() + 12;
+    const mytime = year+'-'+month+'-'+day+'T'+hour+':'+minute
+    console.log( typeof( mytime),typeof(new Date().toISOString().slice(0,16)))
+    console.log(   mytime ,new Date().toISOString().slice(0,16))
+    if(!inputData.CheckinDate) inputData.CheckinDate = mytime
+    if(!inputData.CheckoutDate) inputData.CheckoutDate =  mytime
+    if(!inputData.GuestCount) inputData.GuestCount='1'
+    if(!inputData.nameRoomCount) inputData.nameRoomCount='1'
+    if(!inputData.budgetStart) inputData.budgetStart=0
+    if(!inputData.budgetEnd) inputData.budgetEnd=10000
+    
     inputData.GuestCount = parseInt(inputData.GuestCount)
     inputData.nameRoomCount = parseInt(inputData.nameRoomCount)
-   if(!inputData.GuestCount&&!inputData.nameRoomCount){
-    inputData.GuestCount=2
-    inputData.nameRoomCount=1
-    inputData.budgetStart=0;
-    inputData.budgetEnd=30000;
-    inputData.roomCategoryID='';
-    inputData.districtName=''
-    inputData.CheckinDate = Date.now()
-    inputData.CheckoutDate=Date.now()+1;
-    }
+    
 
     const pincode = generalData.forEach(element => {
         district.add(element.district )
     });
         
      let result = await companies.company.find({district:{ $regex: `^${req.body.ditrictName}`, $options: 'i' },deleted:false,Active:true})
-        res.render('detailedSearch',{user,result,generalData,tariff,district,inputData} )
+     console.log(inputData,'inputdata');  
+     res.render('detailedSearch',{user,result,generalData,tariff,district,inputData} )
  } 
 router.use('/TariffSearch',async (req,res)=>{
     

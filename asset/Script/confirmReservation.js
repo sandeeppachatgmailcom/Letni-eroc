@@ -57,6 +57,7 @@ async function saveReservation(bookings) {
   data.totalAmount = document.getElementById("idfinalAmount").innerText?document.getElementById("idfinalAmount").innerText:0;
   data.specialRequest = document.getElementById("idSpecialRequest").value;
   data.totalRent =   document.getElementById("idSpecialRequest").value;
+  openModal();
    
 
   try {
@@ -72,7 +73,7 @@ async function saveReservation(bookings) {
       console.log(err);
     })
 
-     
+    closeModal() 
     let bookingDetails = JSON.parse(bookings)
     const reservationResult = result
     bookingDetails.reservationNumber = result.result.reference; 
@@ -122,7 +123,7 @@ const result = await fetch('/custom/getPayment',{method:'POST',headers:{"Content
 }
 
 async function confirmPayment(paymentDetails) {
-  
+  openModal();
     const confirmPaymentResponse = await fetch("/reservation/confirmPayment", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -137,6 +138,15 @@ async function confirmPayment(paymentDetails) {
   if(confirmPaymentResponse.status){
      
     window.location.assign('/custom/Home');
+  }
+  else{
+    swal({
+      title: "failed",
+      text: "Payment failed please try again",
+      icon: "error",
+      button: "OK",
+    })
+ 
   }
 }
 

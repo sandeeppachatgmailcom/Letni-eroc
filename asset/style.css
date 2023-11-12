@@ -98,11 +98,7 @@ body {
 }
 
  
-.SearchTextBox{
-    background-color: transparent;
-    height: 50px;
-    border: none;
-}
+ 
  .Login_Test{
     font-size: 13px;
     color: rgb(255, 254, 254);

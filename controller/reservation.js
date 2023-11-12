@@ -92,10 +92,11 @@ const postconfirmPayment = async (req, res) => {
     }
     const saveCreditEntry = await paymentModel.MakeCreditEntry(ReceipttEntry)
     const saveReservationDetails = await occupancy.saveReservationDetails(bookingDetails)
-     
+    console.log(req.body,'from reservation');
     res.json({ status: true });
   } else {
-     
+    console.log(req.body);
+    // const cancelBooking = await checkin.cancelBooking(req.body)  
     res.json({ status: false });
   }
 }

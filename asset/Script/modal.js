@@ -52,8 +52,6 @@ async function loginvendure(){
          userName:'',
          password:'',
     }
-    console.log(data);
-   
     const result =await fetch('/authenticate/custFetchLogin',{method:'POST',headers:{"Content-type":"Application/json"},body:JSON.stringify(data)})
     .then(res=>{
         return res.json()
@@ -65,8 +63,9 @@ async function loginvendure(){
     console.log(result);
     if(result.userActive && result.verified){
         const formId = document.getElementById('idconfirmReservationsbutton');
-        formId.click
-        ()
+       
+        formId.click()
+
     }
     if( !result.verified){
         //document.getElementById('customerLogin').modal('show')

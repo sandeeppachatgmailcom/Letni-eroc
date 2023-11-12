@@ -1,4 +1,4 @@
-
+ 
 
 async function SaveCheckinPlan(){
     const data = {
@@ -149,12 +149,8 @@ async function verifyPasswordBackend(inputusername ,input_Field,outputfield){
             document.getElementById(outputfield).classList.add('btn-success')
             document.getElementById(outputfield).classList.add('bi')
             document.getElementById(outputfield).classList.add('bi-patch-check')
-            
-
-            
         }
         else {
-            
             while (document.getElementById(outputfield).classList.length > 0) {
                 document.getElementById(outputfield).classList.remove(document.getElementById(outputfield).classList.item(0));
             }
@@ -162,117 +158,158 @@ async function verifyPasswordBackend(inputusername ,input_Field,outputfield){
             document.getElementById(outputfield).classList.add('btn-danger')
             document.getElementById(outputfield).classList.add('bi')
             document.getElementById(outputfield).classList.add('bi-patch-check')
-            
-             
         }
-         
         return result.verified; 
-     
-   
-
 }  
-async function verifyEmail(Email_Field,outputfield,path) {
-     
-    const email = document.getElementById(Email_Field).value;
-    if (email.length == 0) {
-        document.getElementById(Email_Field).focus();
-        return
-    }
-    const data = { email: email,
-                    path:path }
-    let result = await fetch('/authenticate/VerifyEmail', {
-        method: 'post',
-        headers: {
-            "Content-Type": "application/json" // Note the colon after "content-type" and the correct header name "Content-Type"
-        },
-        body: JSON.stringify(data)
-    }
-    ).then((res) => {
 
-            return res.json()
+function validateMobileNumber(mobileNumber) {
+    // Regular expression for a basic mobile number validation
+    const mobileRegex = /^[0-9]{10}$/;
+    // Test the mobile number against the regular expression
+    return mobileRegex.test(mobileNumber);
+  }
+function validateEmail(email) {
+    // Regular expression for a basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Test the email against the regular expression
+    return emailRegex.test(email);
+  }
+  
+
+async function verifyEmail(Email_Field,outputfield,path) {
+    const verified =  validateEmail(document.getElementById(Email_Field).value)
+    if(verified){
+        const email = document.getElementById(Email_Field).value;
+        if (email.length == 0) {
+            document.getElementById(Email_Field).focus();
+            return
         }
-        )
-        .catch()
-    
-    let signuptxt = document.getElementById('Signup_Email_text');
-    
-    if (result.verified) {
-         
-        while (document.getElementById(outputfield).classList.length > 0) {
-            document.getElementById(outputfield).classList.remove(document.getElementById(outputfield).classList.item(0));
-           
+        const data = { email: email,
+                        path:path }
+        let result = await fetch('/authenticate/VerifyEmail', {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json" // Note the colon after "content-type" and the correct header name "Content-Type"
+            },
+            body: JSON.stringify(data)
         }
+        ).then((res) => {
+
+                return res.json()
+            }
+            )
+            .catch()
         
-        document.getElementById(outputfield).classList.add('btn')
-        document.getElementById(outputfield).classList.add('btn-danger')
-        document.getElementById(outputfield).classList.add('bi')
-        document.getElementById(outputfield).classList.add('bi-patch-check')
-         
-        alert("The email you entered is already Exist")
-    }
-    else {
-         
-        while (document.getElementById(outputfield).classList.length > 0) {
-            document.getElementById(outputfield).classList.remove(document.getElementById(outputfield).classList.item(0));
+        let signuptxt = document.getElementById('Signup_Email_text');
+        
+        if (result.verified) {
+            
+            while (document.getElementById(outputfield).classList.length > 0) {
+                document.getElementById(outputfield).classList.remove(document.getElementById(outputfield).classList.item(0));
+            
+            }
+            
+            document.getElementById(outputfield).classList.add('btn')
+            document.getElementById(outputfield).classList.add('btn-danger')
+            document.getElementById(outputfield).classList.add('bi')
+            document.getElementById(outputfield).classList.add('bi-patch-check')
+            
+            alert("The email you entered is already Exist")
         }
-        document.getElementById(outputfield).classList.add('btn')
-        document.getElementById(outputfield).classList.add('btn-success')
-        document.getElementById(outputfield).classList.add('bi')
-        document.getElementById(outputfield).classList.add('bi-patch-check')
-        signuptxt.setAttribute("readonly", "true");
+        else {
+            
+            while (document.getElementById(outputfield).classList.length > 0) {
+                document.getElementById(outputfield).classList.remove(document.getElementById(outputfield).classList.item(0));
+            }
+            document.getElementById(outputfield).classList.add('btn')
+            document.getElementById(outputfield).classList.add('btn-success')
+            document.getElementById(outputfield).classList.add('bi')
+            document.getElementById(outputfield).classList.add('bi-patch-check')
+            signuptxt.setAttribute("readonly", "true");
+        }
+        return result.verified
     }
-    return result.verified
+    else{
+        swal({
+            title: "failed",
+            text: "please give a valid email Id",
+            icon: "error",
+            button: "OK",
+          })  
+    }
 }
 
 
 async function verifyphone(phone) {
-    const data = { phone: document.getElementById(phone).value };
-    if (data.phone.length != 10) {
-        alert("please give a valid number")
-        document.getElementById(phone).value = "";
-        return;
-    }
-    const result = await fetch('/authenticate/verifyPhone', {
-        method: 'post',
-        headers: {
-            "Content-Type": "application/json" // Note the colon after "content-type" and the correct header name "Content-Type"
-        },
-        body: JSON.stringify(data)
-    }
-    )
-        .then((res) => {
-            return res.json()
+    if( validateMobileNumber(document.getElementById(phone).value) ){
+        
+            const data = { phone: document.getElementById(phone).value };
+        if (data.phone.length != 10) {
+            swal({
+                title: "failed",
+                text: "please give a valid  mobile number",
+                icon: "error",
+                button: "OK",
+              }) 
+            document.getElementById(phone).value = "";
+            return;
+        }
+        const result = await fetch('/authenticate/verifyPhone', {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json" // Note the colon after "content-type" and the correct header name "Content-Type"
+            },
+            body: JSON.stringify(data)
         }
         )
-        .catch()
-    
-    let signuptxt = document.getElementById('Signup_Email_Phone');
+            .then((res) => {
+                return res.json()
+            }
+            )
+            .catch()
+        
+        let signuptxt = document.getElementById('Signup_Email_Phone');
 
-    if (result.verified) {
-        
-        while (document.getElementById('Signup_phone_Bt').classList.length > 0) {
-            document.getElementById('Signup_phone_Bt').classList.remove(document.getElementById('Signup_phone_Bt').classList.item(0));
+        if (result.verified) {
+            
+            while (document.getElementById('Signup_phone_Bt').classList.length > 0) {
+                document.getElementById('Signup_phone_Bt').classList.remove(document.getElementById('Signup_phone_Bt').classList.item(0));
+            }
+            document.getElementById('Signup_phone_Bt').classList.add('btn')
+            document.getElementById('Signup_phone_Bt').classList.add('btn-danger')
+            document.getElementById('Signup_phone_Bt').classList.add('bi')
+            document.getElementById('Signup_phone_Bt').classList.add('bi-patch-check')
+            swal({
+                title: "failed",
+                text: "Number already exist",
+                icon: "error",
+                button: "OK",
+            })
         }
-        document.getElementById('Signup_phone_Bt').classList.add('btn')
-        document.getElementById('Signup_phone_Bt').classList.add('btn-danger')
-        document.getElementById('Signup_phone_Bt').classList.add('bi')
-        document.getElementById('Signup_phone_Bt').classList.add('bi-search')
-        alert("The number you entered is already Exist")
-    }
-    else {
-        
-        while (document.getElementById('Signup_phone_Bt').classList.length > 0) {
-            document.getElementById('Signup_phone_Bt').classList.remove(document.getElementById('Signup_phone_Bt').classList.item(0));
+        else {
+            
+            while (document.getElementById('Signup_phone_Bt').classList.length > 0) {
+                document.getElementById('Signup_phone_Bt').classList.remove(document.getElementById('Signup_phone_Bt').classList.item(0));
+            }
+            document.getElementById('Signup_phone_Bt').classList.add('btn')
+            document.getElementById('Signup_phone_Bt').classList.add('btn-success')
+            document.getElementById('Signup_phone_Bt').classList.add('bi')
+            document.getElementById('Signup_phone_Bt').classList.add('bi-patch-check')
+            signuptxt.setAttribute("readonly", "true");
         }
-        document.getElementById('Signup_phone_Bt').classList.add('btn')
-        document.getElementById('Signup_phone_Bt').classList.add('btn-success')
-        document.getElementById('Signup_phone_Bt').classList.add('bi')
-        document.getElementById('Signup_phone_Bt').classList.add('bi-patch-check')
-        signuptxt.setAttribute("readonly", "true");
+        console.log(result.verified);
+        return result.verified
+
+        }
+    else{
+        swal({
+            title: "failed",
+            text: "please give a valid mobile number",
+            icon: "error",
+            button: "OK",
+        })
     }
-    console.log(result.verified);
-    return result.verified
-}
+    }
 
 function matchPassword( firstText,retypeText,resultbtn){
 if(document.getElementById(firstText).value==document.getElementById(retypeText).value){
@@ -594,9 +631,6 @@ else{
     document.getElementById('idInfoVendureLogin').textContent =result.message
 }
 }
-
-
-
   function executeOtpTimer(btnElement) {
     const otpButton = document.getElementById(btnElement);
     let time = 60;
@@ -838,8 +872,9 @@ async function CheckUser() {
  async function verifyOneTimePassword(email,otp){
     data ={
         email:   document.getElementById(email).value,
-        otp : document.getElementById(otp).value
+        otp :otp
     }
+    console.log(otp)
     const result = await fetch('/authenticate/confirmOtp',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(data)})
     .then(res=>{
         return res.json()
@@ -879,11 +914,49 @@ else{
 
 }
 
-                    
-async function verifyOtp(dofunc){
-    const result = await verifyOneTimePassword( "idverify_Email" , "id_otp" )
+async function verifyOtpeach(field1,field2,field3,field4,field5,field6,dofunc){
+    const otp = document.getElementById(field1).value +
+                document.getElementById(field2).value +
+                document.getElementById(field3).value +
+                document.getElementById(field4).value +
+                document.getElementById(field5).value +
+                document.getElementById(field6).value 
+                
+    const result = await verifyOneTimePassword("idverify_Email", otp )
     if (result.verified && dofunc=='reset'){
+        const myElement = document.getElementById("openResetModal");
+        const email = document.getElementById("idVerifyEmailOtp");
+        window.location.reload(); 
+        email.value = data.email;
+        email.disabled = true;
+    }
+    else if (result.verified && dofunc=='validate'){
          
+        swal({
+            title: "success",
+            text: "otp Validation Success!",
+            icon: "success",
+            button: "OK",
+          }).then((value)=>{
+            window.location.reload();
+          })
+    }
+    else if(!result.verified){
+        swal({
+            title: "failed",
+            text: "otp Validation failed!",
+            icon: "error",
+            button: "OK",
+          })
+    }
+}     
+
+
+
+
+async function verifyOtp(dofunc){
+    const result = await verifyOneTimePassword( "idverify_Email" , document.getElementById("id_otp").value )
+    if (result.verified && dofunc=='reset'){
         const myElement = document.getElementById("openResetModal");
         const email = document.getElementById("idVerifyEmailOtp");
         myElement.click()

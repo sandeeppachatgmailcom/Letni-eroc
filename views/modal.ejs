@@ -7,7 +7,7 @@
 </head>
 <body>
  
- 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <form action="/vedurehomepage/loadhomepage" method="post">
     <div class="modal fade mr-2 " id="VendureLogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -134,7 +134,7 @@
 </form> 
 
 <!-- Modal -->
-<div class="modal fade " id="customerRegister" style="  background-color: rgba(128, 109, 0, 0.408);" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade " id="customerRegister" style="  background-color: rgba(52, 74, 95, 0.638)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg " >
       <div class="modal-content"  >
         <div class="modal-header">
@@ -144,40 +144,48 @@
         <div class="modal-body">
             <form action="/authenticate/signUp" method="post">  
             
-            <div class="container btn justify-content-evenly "     >
-                <div class="container-fluid col-sm-12 "   >
-                     
+            <div class="container btn justify-content-evenly d-flex"     >
+                <div  class="container-flex col-lg-4 col-sm-12 flex-wrap " style="background-position: center ; background-size: cover; background-image: url('/Images/newUser.png');">
+                    
+                </div>
+                <div class="container-fluid col-lg-8 col-sm-12 text-left "   >
                     <h6 id="IdInfoText"></h6>
-                    <div class="container-fluid border-light d-flex rounded mb-3"  >
-                        <button class="border-0 rounded-start col-4" id="basic-addon1">Name</button>
+                    <div class="container-fluid text-left"  >
+                        <small class="text-primary" id="basic-addon1">Name</small>
                         <input type="text"  class=" rounded-end form-control" id="Signup_name_text" name="name" placeholder="Name" required>
                     </div>
                     <!-- ************ -->
-                    <div class="container-fluid border-light d-flex rounded mb-3">
+                    <div class="container-fluid ">
                          
-                        <button class="border-0 rounded-start col-4" id="idCreateSignup_input_group_text">Email</button>
-                        <input id="Signup_Email_text" type="email" onchange="verifyEmail('Signup_Email_text','Signup_Email_Bt','/new');" class="form-control" name="email" placeholder="Email" required>
-                        <button id="Signup_Email_Bt" type="button" class="btn btn-outline-success bi bi-search"
+                        <small class="text-primary" id="idCreateSignup_input_group_text">Email</small>
+                        <div class="container-flex d-flex text-left input-group  ">
+                            <input id="Signup_Email_text" type="email" onchange="verifyEmail('Signup_Email_text','Signup_Email_Bt','/new');" class="form-control" name="email" placeholder="Email" required>
+                            <button id="Signup_Email_Bt" type="button" class="btn bi bi-search border rounded-end" 
                             onclick="verifyEmail('Signup_Email_text','Signup_Email_Bt','/new');"></button>
+                        </div>
             
                     </div>
                     <!-- ************ -->
-                    <div class="container-fluid border-light d-flex rounded mb-3">
-                        <button class="border-0 rounded-start col-4">Phone</button>
-                        <input id="Signup_Email_Phone" onchange="verifyphone('Signup_Email_Phone')" type="number" class="form-control" name="phone" placeholder="Phone" required>
-                        <button id="Signup_phone_Bt" type="button" onclick="verifyphone('Signup_Email_Phone')"
-                            class="btn btn-outline-success bi bi-search"></button>
+                    <div class="container-fluid">
+                        <small class="text-primary">Phone</small>
+                        <div class="container-flex d-flex text-left input-group">
+                            <input id="Signup_Email_Phone" onchange="verifyphone('Signup_Email_Phone')" type="number" class="form-control" name="phone" placeholder="Phone" required>
+                            <button id="Signup_phone_Bt" type="button" onclick="verifyphone('Signup_Email_Phone')"
+                                class="btn border bi-search"></button>
+                        </div>
                     </div>
                     <!-- ************ -->
-                    <div class="container-fluid border-light d-flex rounded mb-3">
-                        <button class="border-0 rounded-start col-4 " required>Password</button>
-                        <input autocomplete="new-password" onchange="verifyPassword('User_Login_password','verifyPassword_Bt' )" onselect="nothing()" id="User_Login_password"
-                        type="password" class="form-control" name="password" placeholder="password">
-                        <button id="verifyPassword_Bt" type="button" onclick="verifyPassword('Signup_User_Name','verifyPassword_Bt')"
-                        class="btn btn-outline-success bi bi-search "></button>
+                    <div class="container-fluid">
+                        <small class="text-primary" required>Password</small>
+                        <div class="container-flex d-flex input-group">
+                                <input autocomplete="new-password" onchange="verifyPassword('User_Login_password','verifyPassword_Bt' )" onselect="nothing()" id="User_Login_password"
+                            type="password" class="form-control" name="password" placeholder="password">
+                            <button id="verifyPassword_Bt" type="button" onclick="verifyPassword('Signup_User_Name','verifyPassword_Bt')"
+                            class="btn border bi bi-search "></button>
+                        </div>
                    </div>
                  <!-- ************ -->
-                        <div hidden class="container-fluid border-light d-flex rounded mb-3">
+                    <div hidden class="container-fluid border-light d-flex rounded mb-3">
                             <button hidden class="border-0 rounded-start col-4 ">Username</button>
                             <input hidden type="text " id="Signup_User_Name" onchange="verifyUser('Signup_User_Name')" class="form-control " name="username" placeholder="Username" >
                             <button hidden id="Signup_username_Bt" type="button" onclick="verifyUser('Signup_User_Name')"
@@ -185,30 +193,31 @@
                         </div>
                     <!-- ************ -->
                 </div>
-                <div class="container-fluid d-flex flex-wrap">
+                
+                </div>
+                <div class="container-fluid d-flex flex-wrap col-12   ">
                     <div class=" container-fluid d-flex flex-wrap col-sm-12">
                         <button id="Bt_Save_Signup" onclick="verifyandupdate()" type="button"
-                            class="btn btn-success  col-sm-12 m-1 col-lg-2 bi bi-cursor-fill" value="signup"> SAVE </button>
+                            class="btn btn-success  col-sm-12 m-1 col-lg-2 bi bi-floppy-fill rounded-pill" value="signup"> Register </button>
                         <button hidden id="Bt_Cancel_signup" onclick="CancelEntry()" type="button"
                             class="btn btn-danger  col-sm-12 m-1 col-lg-2 bi bi-x-square"> CANCEL </button>
-                        <button hidden id="Bt_verifyOtp"  data-bs-toggle="modal" data-bs-target="#idEnterOtp" type="button"
-                             class="btn btn-primary col-lg-3   col-sm-12 m-1 bi-envelope-check-fill"> VALIDATE </button>
+                        <button   id="Bt_verifyOtp"  data-bs-toggle="modal" data-bs-target="#idEnterOtp" type="button"
+                            hidden class="btn btn-primary col-lg-3   col-sm-12 m-1 bi-envelope-check-fill"> VALIDATE </button>
                         <button hidden id="Bt_Login_back" onclick="loadHome()" type="button"
                             class="btn btn-success col-sm-12 m-1 col-lg-2 bi bi-person-square"> LOGIN </button>
                     </div>
-                </div>
                 <br>
             </div>
             </form>
         </div>
       </div>
     </div>
-  </div>
+</div>
 
 <!-- OTP Modal -->
 <div class="modal fade btn" id="idEnterOtp" style="background-color: rgba(128, 109, 0, 0.408);" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg " >
-      <div class="modal-content"  >
+      <div class="modal-content "  >
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Verify Account</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -217,38 +226,33 @@
             <form action="/authenticate/signUp" method="post">  
             
             <div class="container btn justify-content-evenly "     >
-                <div class="container-fluid "   >
-                     
-                     
-                    
+                <div class="container-fluid col-6 "   >
                     <!-- ************ -->
-                    <div class="container-fluid border-light d-flex rounded mb-3">
-                         
-                        <button class="border-0 rounded-start col-4" id="idVerifySignup_input_group_text">Email</button>
-                        <input id="idverify_Email" type="email" onchange="verifyEmail('idverify_Email','idSignup_Email_Btn10','/VerifyEmail')"    class="form-control " name="email" placeholder="Email" required>
-                        <button id="idSignup_Email_Btn10" class="btn"></button>
-            
+                    <div class="container-flex border-light d-flex rounded border col-12">
+                        <input readonly id="idverify_Email" type="email" onchange="verifyEmail('idverify_Email','idSignup_Email_Btn10','/VerifyEmail')"    class="form-control w-100  btn bg-white " name="email" placeholder="Email" required>
+                        <!-- <button id="idSignup_Email_Btn10" class="btn border " hidden ></button> -->
                     </div>
-                    
-                    <!-- ************ -->
-                    <div class="container-fluid border-light d-flex rounded mb-3">
-                            <button class="border-0 rounded-start col-4 " required>OTP</button>
-                            <input autocomplete="new-password"    id="id_otp"
-                            type="text" class="form-control" name="password" placeholder="password">
-                            <button   class="btn"></button>
+                    <div class="container-flex border-light d-flex rounded mb-1 border col-11">
+                            <input autocomplete="new-password" oninput="moveToNextField(this, 'id_otp2')"    id="id_otp1" type="text" maxlength="1" class="form-control col-2 me-1" name="password" placeholder="">
+                            <input autocomplete="new-password" oninput="moveToNextField(this, 'id_otp3')"    id="id_otp2" type="text" maxlength="1" class="form-control col-2 me-1" name="password" placeholder="">
+                            <input autocomplete="new-password" oninput="moveToNextField(this, 'id_otp4')"    id="id_otp3" type="text" maxlength="1" class="form-control col-2 me-1" name="password" placeholder="">
+                            <input autocomplete="new-password" oninput="moveToNextField(this, 'id_otp5')"    id="id_otp4" type="text" maxlength="1" class="form-control col-2 me-1" name="password" placeholder="">
+                            <input autocomplete="new-password" oninput="moveToNextField(this, 'id_otp6')"    id="id_otp5" type="text" maxlength="1" class="form-control col-2 me-1" name="password" placeholder="">
+                            <input autocomplete="new-password" oninput="moveToNextField(this, 'idOtpBt_Save_Signup')"    id="id_otp6" type="text" maxlength="1" class="form-control col-2 me-1" name="password" placeholder="">
+                            <button class="btn"> </button>
                     </div>
-            
-                </div>
-                <div class="container-fluid d-flex flex-wrap  ">
-                    <div class="container-fluid  d-flex flex-row  ">
-                        <button id="idOtpBt_Save_Signup"   type="button"
-                            class="btn btn-success  bi bi-cursor-fill" onclick="verifyOtp('validate')"  value="signup"> sign in</button>
-                        <button id="Bt_resendOtp" disabled  type="button" onclick="resendOtp('idverify_Email','Bt_resendOtp')"
-                            class="btn noborder  text-primary text-left "> SEND OTP </button>
-                        <button id="Bt_signinOtp"  data-bs-toggle="modal" data-bs-target="#customerLogin" type="button" class="btn btn-primary  bi bi-envelope-check-fill" hidden> LOG-IN  </button>
-                        <button id="openResetModal"  data-bs-toggle="modal" data-bs-target="#resetPasswordafterOtp" style="display: none;" type="button" class="btn btn-warning bi bi-x-square"> LOG-IN  </button>
-                   </div>
-                </div>
+                    <div class="container-flex d-flex flex-wrap  col-12">
+                            <div class="container-fluid  d-flex flex-row  ">
+                                <button id="idOtpBt_Save_Signup"   type="button"
+                                    class="btn btn-success  bi bi-cursor-fill" onclick="verifyOtpeach('id_otp1','id_otp2','id_otp3','id_otp4','id_otp5','id_otp6','reset')"  value="signup"> sign in</button>
+                                <button id="Bt_resendOtp" disabled  type="button" onclick="resendOtp('idverify_Email','Bt_resendOtp')"
+                                    class="btn noborder  text-primary text-left "> SEND OTP </button>
+                                <button id="Bt_signinOtp"  data-bs-toggle="modal" data-bs-target="#customerLogin" type="button" class="btn btn-primary  bi bi-envelope-check-fill" hidden> LOG-IN  </button>
+                                <button id="openResetModal"  data-bs-toggle="modal" data-bs-target="#resetPasswordafterOtp" style="display: none;" type="button" class="btn btn-warning bi bi-x-square"> LOG-IN  </button>
+                           </div>
+                    </div>
+                    </div>
+                
                 <br>
             </div>
             </form>
@@ -336,8 +340,19 @@
     </div>
   </div>
 
-
-
+  <script>
+    function moveToNextField(currentField, nextFieldId) {
+      const maxLength = currentField.maxLength;
+      const currentLength = currentField.value.length;
+      if (currentLength === maxLength) {
+        const nextField = document.getElementById(nextFieldId);
+        if (nextField) {
+          nextField.focus();
+        }
+      }
+    }
+    </script>
+    
 <script src=" /Script/modal.js"> </script>
 <script src="/Script/Script_Signup.js"> </script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

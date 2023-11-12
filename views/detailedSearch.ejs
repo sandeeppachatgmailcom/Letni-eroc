@@ -6,35 +6,33 @@
         <div class="container-flex">
              
             <div id="idcarouselHomePage" class="carousel slide carousel-fade col-12 h-100" data-bs-ride="carousel"style="height:60vh"  >
-                <div class="carousel-inner bg-secondary" id="idimageincarosal" style="height:40vh">
+                <div class="carousel-inner m-1 rounded bg-secondary" id="idimageincarosal" style="height:40vh">
                     <% result.forEach((company,index) => { %>
                         <div   class="carousel-item h-100 active d-flex flex-column justify-content-center align-items-start h-100 " style=" background-image: url('<%= company.image1 %>');height: 40vh; background-position: center; background-size: cover;">
                              
                         </div> 
                     <% }) %>
                 </div>
-                <div class="container border rounded mt-3 mb-3" style="background-color:rgba(65, 90, 69, 0.762);" >
+                <div class="container border rounded mt-3 mb-3" style="background-color:rgba(65, 90, 69, 0.91);" >
                     <div class="container-flex ">
                         <!-- Main Search box Start here -->
                     <form action="/custom/customSearch" method="post"> 
-                        <div class="container-flex row">
-                            <div class="border border-light rounded col-lg-3 col-sm-12 d-flex" >
-                                <label   class="text-left input-group-text col-6 text-light btn"style="background-color: transparent;" id="iDServiceImages1btn2">Location</label>
+                        <div class="container-flex row border p-2" style="border: 5px rgba(213, 237, 217, 0.762) solid;">
+                            <div class=" col-lg-3 col-sm-12 container-flex rounded btn p-1 text-left" style="border: 1px rgb(203, 191, 191) solid;">
+                                <small   class="text-left text-light btn"style="background-color: transparent;" id="iDServiceImages1btn2">location</small> 
                                 <select name="ditrictName" type="text" value="<%= inputData.ditrictName %>"  id="idDitrictName"
                                     data-hotels="<%= JSON.stringify(generalData) %>" name="SearchText"
-                                    class="   w-100 btn border-none h-100  text-light fw-lighter col-6" id="idSearchText"
+                                    class="w-100  btn text-left text-light col-12 fw-LIGHTER" id="idSearchText"
                                     onchange="loadHotel(event.target.value,'' ) ">
                                     <option style="background-color: rgba(65, 90, 69, 0.762) ; height: 100px;"
-                                        class="col-6 SearchTextBox text-light fw-LIGHTER" selected value="<%= inputData.ditrictName %>" > <%= inputData.ditrictName %>
+                                        class="col-12  text-light fw-LIGHTER" selected value="<%= inputData.ditrictName %>" > <%= inputData.ditrictName %>
                                     </option>
                                     <option style="background-color:  rgba(65, 90, 69, 0.762) ; height: 100px;"
-                                    class="col-12 SearchTextBox text-light fw-LIGHTER"   value="">All the Space we
-                                    have
-                                </option>
+                                    class="col-12  text-light fw-LIGHTER"   value="">All</option>
                                     <% district.forEach(element=> { %>
                                             <% if (inputData.ditrictName!=element) { %>
                                                 <option style="background-color: rgba(65, 90, 69, 0.762) ; height: 100px;"
-                                                    class="col-12 SearchTextBox text-light fw-LIGHTER"
+                                                    class="col-12 text-light fw-LIGHTER"
                                                     value="<%= element  %>">
                                                     <%= element %>
                                                 </option>
@@ -42,28 +40,34 @@
                                         <% }) %>
                                 </select>
                             </div>
-                            <div class="col-lg-3 col-sm-12 d-flex container-fluid"
+                            <div class="col-lg-3 col-sm-12  container-fluid btn p-1"
                                 style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
-                                <label   class=" text-left input-group-text text-light btn col-4"
-                                    style="background-color: transparent;" id="iDServiceImages1btn2">Check-in</label>
-                                <input name="CheckinDate" id="idStartDate" onchange="midatetimesetting();" type="datetime-local" value="<%=  inputData.CheckinDate  %>" class="text-light SearchTextBox col-8">
+                                <small   class=" text-left input-group-text text-light btn col-12"
+                                    style="background-color: transparent;" id="iDServiceImages1btn2">arrival</small>
+                                <input name="CheckinDate" id="idStartDate" onchange="midatetimesetting();" type="datetime-local" value="<%=  inputData.CheckinDate  %>" 
+                                class="text-light btn col-12 text-left rounded btn   ">
                             </div>
 
-                            <div class="col-lg-3 col-sm-12 d-flex container-fluid"
+                            <div class="col-lg-3 col-sm-12 container-fluid btn p-1"
                                 style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
-                                <label   class="text-left input-group-text text-light btn col-4"
-                                    style="background-color: transparent;" id="iDServiceImages1btn2">Check-out</label>
-                                <input name="CheckoutDate" id="idEndDate" type="datetime-local" value="<%=  inputData.CheckoutDate  %>" class="text-light SearchTextBox col-8">
+                                <small   class="text-left input-group-text text-light btn col-12"
+                                    style="background-color: transparent;" id="iDServiceImages1btn2">departure</small>
+                                <input name="CheckoutDate" id="idEndDate" type="datetime-local" value="<%=  inputData.CheckoutDate  %>" 
+                                class="text-light btn col-12 text-left rounded btn ">
                             </div>
-                            <div class="col-lg-3 col-sm-12 d-flex container-fluid"
+                            <div class="col-lg-2 col-sm-12  container-fluid btn p-1"
                                 style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
-                                <label   class=" text-left input-group-text text-light btn col-6"
-                                    style="background-color: transparent;" id=" iDServiceImages1btn2">GUEST</label>
+                                <small   class=" input-group-text text-light btn col-12 text-left"
+                                    style="background-color: transparent;" id=" iDServiceImages1btn2">guest</small>
                                 <input id="idGuestCount" type="number" name="GuestCount" value="<%= inputData.GuestCount %>"
-                                class="text-light col-6    SearchTextBox">
+                                class="text-light col-12   rounded btn text-left">
+                            </div>
+                            <div class="btn container-flex col-lg-1 col-sm-12 d-flex  "
+                            style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
+                                <button  onclick=""  type="submit" class="btn h-100 w-100 text-light  bi bi-search "> LOAD </button>
                             </div>
                         </div>
-                        <div class="container-flex row" >
+                        <div class="container-flex row" hidden>
                             <div class="col-lg-3  col-sm-12 d-flex container-flex"
                                  style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
                              
@@ -106,10 +110,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="btn container-flex col-lg-3 col-sm-12 d-flex  "
-                            style="border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.33);">
-                                <button  onclick=""  type="submit" class="btn h-100 w-100 text-light  bi bi-search "> LOAD </button>
-                            </div>
+                            
                         </div>
                     </form> 
                         <!-- Main Search box Ends here -->

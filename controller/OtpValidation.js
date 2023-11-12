@@ -43,12 +43,12 @@ async function resendOtp(Email,sessionID){
 } 
 
  
-async function validateOtp(Email,Otppassword){
+async function validateOtp(Email,Otppassword,sessionID){
     console.log(Email,Otppassword,'function here')
     const result = await OtpAuther.Otp.updateOne(
         { authorisationname: Email, otp: Otppassword },
         { $set: { verified: true } });
-    const activateUser = await Hbank.HumanResource.updateOne({email:Email},{$set:{Active:true}})    
+    const activateUser = await Hbank.HumanResource.updateOne({email:Email},{$set:{Active:true,activeSession:sessionID}})    
     console.log(result,'otp')
     return result;
 } 

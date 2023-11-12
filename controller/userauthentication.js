@@ -114,10 +114,30 @@ const getcustLogin = async (req,res)=>{
     req.body.roomCategoryID='';
     req.body.budgetStart=0;
     req.body.budgetEnd=30000;
+    const inputData = req.body;
+    const currentDateTimeString = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+    const month = currentDateTimeString.slice(0, 2);
+    const day = currentDateTimeString.slice(3, 5);
+    const year = currentDateTimeString.slice(6, 10);
+    const time = currentDateTimeString.slice(12, 23);
+    const [hour, minute, secAndPeriod] = time.split(':');
+    const [sec, period] = secAndPeriod.split(' ');
+    if(hour.length==1)hour = '0'+hour;
+    if (period == 'PM') hour = hour.parseInt() + 12;
+    const mytime = year+'-'+month+'-'+day+'T'+hour+':'+minute
+    console.log( typeof( mytime),typeof(new Date().toISOString().slice(0,16)))
+    console.log(   mytime ,new Date().toISOString().slice(0,16))
+    if(!inputData.CheckinDate) inputData.CheckinDate = mytime
+    if(!inputData.CheckoutDate) inputData.CheckoutDate =  mytime
+    if(!inputData.GuestCount) inputData.GuestCount='1'
+    if(!inputData.nameRoomCount) inputData.nameRoomCount='1'
+    if(!inputData.budgetStart) inputData.budgetStart=0
+    if(!inputData.budgetEnd) inputData.budgetEnd=10000
+    
     const generalData = await companies.SearchCompany('')
     const tariff = await tariffs.loadtariff('')
     let district = new Set();
-    const inputData = req.body;
+    
     const pincode = generalData.forEach(element => {
         district.add(element.district )
     });
@@ -376,7 +396,8 @@ const postloadUserCompany = async (req,res)=>{
     res.json(companyList);
 } 
 const postconfirmOtp = async (req,res)=>{
-    const result =await OTPValidate.validateOtp(req.body.email,req.body.otp);
+    const result =await OTPValidate.validateOtp(req.body.email,req.body.otp,req.sessionID);
+    console.log(req.body.email,req.body.otp,result,'asaasassasasas');
     if(result.modifiedCount){
     res.json({verified:true});       
     }
