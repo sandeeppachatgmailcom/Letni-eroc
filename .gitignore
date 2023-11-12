@@ -4,4 +4,4 @@
 # Ignore .env files
 .env*
 #ignore Images
-/asset/Images
+
