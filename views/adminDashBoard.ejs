@@ -3,28 +3,23 @@
 <%- include('menubar') %>
 <div class="container-fluid">
     
-    <div class="container-flex d-flex" style="height: 300px ;background-color: whitesmoke;">
+    <div class="container-flex d-flex" style="background-color: whitesmoke;">
+        
+
+
+        
+    </div>
+    <div class=" container-fluid d-flex">
+        
         <div class="container-fluid col-4 h-100 ">
             
             <div class="container-fluid border border-warning rounded bg-white h-100 ">
-                <canvas class="h-100 w-100" style="border: 1px solid grey;" id="myChart" ></canvas>
+                <canvas class="h-100 w-100"  id="myChart" ></canvas>
             </div>
             <button class="btn " id="idGraphData" style="display: none;" value="<%= JSON.stringify(bookings) %>"
                 onclick="myloadGraph()"> my button</button>
         </div>
 
-
-        <div class="container-fluid col-4  ">
-            
-            <div class="container-fluid border border-warning rounded bg-white">
-                <canvas style="border: 2ps solid yellow;" id="myChart1" ></canvas>
-            </div>
-            <button class="btn " id="idGraphData2" style="display: none;" value="<%= JSON.stringify(bookings) %>"
-                onclick="myloadGraph()"> my button</button>
-        </div>
-    </div>
-    <div class=" container-fluid d-flex">
-       
         <div class="container-fluid col-5 border w-100 m-0 p-0" >
             <div class="container-fluid d-flex">
                 <table class="table">
@@ -88,11 +83,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="container-flex d-flex">
-                <% for( let index = 0; index < pageHotels; index++ ) { %>
-                <button class="btn btn-outline-primary " onclick="loadHotelByPagebyNumber(event.target.value)" value="<%= index %>" id="btnhotelPageCount<%= index %>"> <%= index+1 %></button>
-                <% } %>  
-            </div>
+            
         </div>
         <div class="container-fluid col-2 border w-100 m-0 p-0">
             <div class="container-fluid w-100">
