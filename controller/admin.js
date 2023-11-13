@@ -10,7 +10,11 @@ const postactivateCompany = async (req,res)=>{
     const status =await  fntcompany.changeCompanyActiveNot(req.body)    
     res.json(status)
 } 
-
+const postloadHotelByPagebyNumber = async (req,res)=>{
+    console.log(req.body,'page Number   ')
+    const company =await fntcompany.company.find({Active:true,deleted:false}).skip(req.body.skip).limit(req.body.limit)
+    res.json(company);
+}
 
 const getRoot = async (req,res)=>{
    
@@ -18,6 +22,7 @@ const getRoot = async (req,res)=>{
 } 
 const postadminLogin = async (req,res)=>{
     req.body.session = req.sessionID;
+    req.body.path= req.path
     const result =await HBank.verifyUser(req.body)   
     if(result.verified){
         if(result.isAdmin){
@@ -62,6 +67,7 @@ const getdashboard = async (req,res)=>{
     const result =await HBank.verifyUser(req.body)  
     const activeUsers =  await  HBank.HumanResource.find({deleted:false},{hrId:1,_id:0,firstName:1,email:1,contactNumber:1,Active:1})  
     const hotels = await fntcompany.getCompanySummary()
+    const pageHotels =Math.ceil(hotels.length/5) 
     console.log(activeUsers);
 
     let user = ''
@@ -95,7 +101,7 @@ const getdashboard = async (req,res)=>{
                     
                     tempDate.setDate(tempDate.getDate()+1)
                 }
-           res.render('adminDashBoard',{user,bookings,activeUsers,hotels})
+           res.render('adminDashBoard',{user,bookings,activeUsers,hotels,pageHotels})
     }
     else{
         
@@ -104,4 +110,4 @@ const getdashboard = async (req,res)=>{
 
     
 } 
-module.exports = {postactivateCompany,getRoot,postadminLogin ,postdisableUser,getdashboard}
+module.exports = {postactivateCompany,getRoot,postadminLogin ,postdisableUser,getdashboard,postloadHotelByPagebyNumber }

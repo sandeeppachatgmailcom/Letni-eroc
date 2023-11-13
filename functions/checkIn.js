@@ -3,6 +3,9 @@ const controller = require('../controller/adminController')
 const humanBank = require('../model/humanbank')
 const tariff = require('../model/tariff')
 const modelcheckIn  = require('../model/checkIn')
+const modelPayment = require('../model/payments')
+const Razorpaytrans = require('../controller/razorPay')
+const userBank = require('../functions/humanbank');
 
 async function saveCheckin(checkinobj) {
   if (!checkinobj.hrId) {
@@ -169,7 +172,39 @@ async function getCheckinWithAllDetails(FrontData) {
     console.error(error);
   }
 }
-
+async function cancelResevation(bookingObj){
+  const result =  await modelcheckIn.checkIn.updateOne({reservationNumber:bookingObj.reservationNumber},{$set:{delete:true}})
+  const  user =await userBank.findUser(bookingObj.sessionID)
+  const paymentId = await modelPayment.payment.findOne({entryType:"Dr",paymentReferance:bookingObj.bookingID,accountHead:user.hrId},{_id:0,receiptNumber:1})
+  let refund;
+  if(paymentId){
+  refund = await Razorpaytrans.razorRefundPayment(paymentId.receiptNumber) }
+  else{
+    refund ={}
+  }
+  //let refund={};
+  refund.status== 'processed'    
+  console.log(result);
+  let status
+  if(result.modifiedCount>0){
+      if(refund.status== 'processed'){
+          status={
+              cancelled:true,
+              message:'Booking Cancelled& refund processed , it will credit in your account with in 24 working hours'
+          }
+      }
+      else{
+          status={
+            cancelled:true,
+              message:'Booking Cancelled'
+          }
+      }
+       
+      return status;
+  }
+ 
+  
+}
 
 async function loadCheckin(checkinReferance) {
   const checkinDetails = await modelcheckIn.checkIn.find({ checkinReferance: { $regex: `${checkinReferance}`, $options: 'i' }, delete: false })
@@ -207,4 +242,4 @@ async function loadReservationbyCompany(companyID) {
 }
 
 const checkIn = modelcheckIn.checkIn;  
-module.exports = { checkIn, saveCheckin, saveReservation, deleteCheckin, loadCheckin, SearchCheckin, getCheckinWithAllDetails,loadReservationbyCompany }
+module.exports = { checkIn, saveCheckin, saveReservation, deleteCheckin, loadCheckin, SearchCheckin, getCheckinWithAllDetails,loadReservationbyCompany,cancelResevation }

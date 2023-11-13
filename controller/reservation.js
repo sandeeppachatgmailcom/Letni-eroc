@@ -9,6 +9,20 @@ const Razorpaytrans = require('../controller/razorPay')
 const getRoot = (req,res)=>{
   res.redirect('/')
 } 
+
+const postcancelBooking= async (req,res)=>{
+  const cancel =await checkin.cancelResevation(req.body);
+  console.log(cancel,'message in backend');
+  res.json(cancel);
+
+
+
+
+
+  
+}
+
+  
 const postsavereservation =  async (req, res) => {
   const userDetails = await hbank.HumanResource.findOne({ activeSession: req.sessionID })
   req.body.custId = userDetails.hrId
@@ -101,5 +115,5 @@ const postconfirmPayment = async (req, res) => {
   }
 }
  
-module.exports = {getRoot,postsavereservation,postconfirmPayment};
+module.exports = {getRoot,postsavereservation,postconfirmPayment,postcancelBooking};
  

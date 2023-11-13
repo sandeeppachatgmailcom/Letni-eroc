@@ -120,6 +120,7 @@ for(const tariff of roosObj ){
   async function getRoomAvailalability(companyID){
     const result =await company.company.findOne({CompanyID:companyID,deleted:false})
     let roomTypes = result.roomtypes;
+    if(!roomTypes) roomTypes=''
     for(const item of roomTypes){
       item.availableRoom = await rooms.depart.find({roomType:item.tariffIndex,deleted:false,companyIndex:companyID}).countDocuments() 
     } 

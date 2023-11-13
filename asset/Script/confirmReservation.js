@@ -105,8 +105,33 @@ function handleRazorpayPayment(result, bookingDetails) {
   };
 
   var rzp1 = new Razorpay(options);
-  rzp1.on("payment.failed", function (response) {
-    alert(response)
+  rzp1.on("payment.failed",async function (response) {
+    console.log(bookingDetails)
+    const cancelBooking = await fetch('/reservation/cancelBooking',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(bookingDetails)})
+       .then(res=>{
+        return res.json()
+       })
+       .catch(err=>{
+        console.log(err)
+       }) 
+       console.log(bookingDetails,cancelBooking);
+       if(cancelBooking.cancelled){
+        swal({
+          title: "failed",
+          text: response,
+          icon: "error",
+          button: "OK",
+        })
+       }
+       else{
+        swal({
+          title: "failed",
+          text: response,
+          icon: "error",
+          button: "OK",
+        }).then()
+       }
+
   });
   rzp1.open();
 

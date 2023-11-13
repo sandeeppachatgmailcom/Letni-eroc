@@ -54,11 +54,19 @@ async function SearchHumanbyUsername(humanObj) {
     return data;
 }
 async function verifyUser(userObject){
-    if(userObject.path=='/verifyUsenameWithPassword'){
+    if(userObject.path=='/verifyUsenameWithPassword'    ){
         userObject.session="noactivesession"
+    }  
+
+    let user = await ModelHumanResource.HumanResource.findOne({activeSession:userObject.session},{password:0,_id:0})
+    if( userObject.path=='/hotelLogin'){
+        user='';
+        await ModelHumanResource.HumanResource.updateOne({activeSession:userObject.session},{$set:{activeSession:null}})
+    } 
+    if( userObject.path=='/adminLogin'){
+        user='';
+        await ModelHumanResource.HumanResource.updateOne({activeSession:userObject.session},{$set:{activeSession:null}})
     }
-    const user = await ModelHumanResource.HumanResource.findOne({activeSession:userObject.session},{password:0,_id:0})
-     
     if(user){
         user.companyID = await company.company.findOne({email:user.email},{CompanyID:1,Active:1 ,_id:0})
         if(!user.companyID)user.companyID = {}

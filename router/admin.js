@@ -12,4 +12,5 @@ router.get('/',admin.getRoot)
 router.post('/adminLogin',admin.postadminLogin)
 router.post('/disableUser',admin.postdisableUser)
 router.get('/dashboard',admin.getdashboard)
+router.post('/loadHotelByPagebyNumber',admin.postloadHotelByPagebyNumber)
 module.exports = router

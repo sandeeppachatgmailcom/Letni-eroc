@@ -24,6 +24,8 @@ const getRoot = (req,res)=>{
 } 
 const posthotelLogin = async (req,res)=>{
     req.body.session = req.sessionID; 
+    req.body.path = req.path;
+    console.log(req.path,'pathththth');
     const result =await HBank.verifyUser(req.body);
     console.log(result);
     result.path = '/vedurehomepage/loadhomepage'
@@ -120,10 +122,10 @@ const getcustLogin = async (req,res)=>{
     const day = currentDateTimeString.slice(3, 5);
     const year = currentDateTimeString.slice(6, 10);
     const time = currentDateTimeString.slice(12, 23);
-    const [hour, minute, secAndPeriod] = time.split(':');
+    let [hour, minute, secAndPeriod] = time.split(':');
     const [sec, period] = secAndPeriod.split(' ');
     if(hour.length==1)hour = '0'+hour;
-    if (period == 'PM') hour = hour.parseInt() + 12;
+    if (period == 'PM') hour =  parseInt(hour) + 12;
     const mytime = year+'-'+month+'-'+day+'T'+hour+':'+minute
     console.log( typeof( mytime),typeof(new Date().toISOString().slice(0,16)))
     console.log(   mytime ,new Date().toISOString().slice(0,16))

@@ -34,6 +34,59 @@
 
   }
 
+
+async function loadHotelByPagebyNumber(skip){
+  const data ={
+    skip:parseInt(skip)*5,
+    limit:(parseInt(skip)*5)+5
+  }
+  const result = await fetch ('/admin/loadHotelByPagebyNumber',{method:'POST',headers:{"Content-type":"Application/json"},body:JSON.stringify(data)})
+  .then(res=>{
+    return res.json()
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+let innerHTML=''  
+result.forEach(hotel => {
+  innerHTML = innerHTML + `   
+               
+                  <td> 
+                      <small class="text text-primary " style="font-size: 20px;">
+                     ${hotel.firstName}
+                      
+                     </small> <br>
+                      <small>
+                      ${hotel.email}
+                      </small> <br>
+                      <small>
+                      ${hotel.contactNumber}
+                      </small>
+                  </td>
+                  <td> 
+                      <small>
+                      ${hotel.totalRooms}
+                      </small>
+                  </td>
+                  <td> 
+                      <small>
+                      ${hotel.activeTariff}
+                      </small>
+                  </td>
+                  <td> 
+                      <small>
+                      ${hotel.activePlans}
+                      </small>
+                  </td>
+                   <br>
+               `
+});
+document.getElementById('idAdmincompanyList').innerHTML = ''
+document.getElementById('idAdmincompanyList').innerHTML = innerHTML;
+
+}
+
+
 async function activateCompany(CompanyID){
 
 const data = {
