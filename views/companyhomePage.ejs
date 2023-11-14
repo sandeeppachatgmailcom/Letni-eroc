@@ -43,19 +43,19 @@
   <div class="container-fluid d-flex col-12  flex-wrap ">
         <div class=" col-lg-2 col-sm-12 container-fluid border rounded  ">
           <form action="/vedurehomepage/loadhomepage" method="post">
-            <button class="btn border btn-success col-12 col "> Dashboard </button>
+            <button class="btn border  col-12 col text-left text-light" style="background-color: rgb(82,105,86);"> Dashboard </button>
           </form>
           <form action="/Company/loadTariff" method="get">
-              <button class="btn border btn-success col-12 col "> Tariff </button>
+              <button class="btn border  col-12 col text-left text-light" style="background-color: rgb(82,105,86);"> Tariff </button>
           </form>
           <form action="/Company/loadPlan" method="get">
-              <button class="btn border btn-success col-12 col "> Checkin Plan </button>
+              <button class="btn border  col-12 col text-left text-light" style="background-color: rgb(82,105,86);"> Checkin Plan </button>
           </form>
           <form action="/Company/loadRoom" method="get">
-              <button class="btn border btn-success col-12 col "> Rooms </button>
+              <button class="btn border  col-12 col text-left text-light" style="background-color: rgb(82,105,86);"> Rooms </button>
           </form>
           <form action="/Company/loadReservations" method="get">
-              <button class="btn border btn-success col-12 col "> Reservation Details </button>
+              <button class="btn border  col-12 col text-left text-light" style="background-color: rgb(82,105,86);"> Reservation Details </button>
           </form>
            
            
@@ -63,48 +63,49 @@
         <div class="col-lg-10 col-sm-12 container-fluid flex-wrap d-flex border rounded"  >
             <div class="col-lg-6 col-sm-12 container-fluid "  >
               <% if ( occupancyDetails ) { %>
-                <div  class="col-12 container-fluid border rounded  border-primary p-1 m-2" >
-                  <div class="table-responsive  border-primary  " >
-                    <table class="table border-primary">
-                      <button  class="bi bi-caret-down-square  btn btn-primary "> ROOM ALIGATION</button>
+                <div  class="col-12 container-fluid border rounded  border-secondary p-1 m-2" >
+                  <div class="table-responsive  border-secondary  " >
+                    <table class="table border-secondary">
+                      <button  class="bi bi-caret-down-square  btn btn-secondary "> ROOM ALIGATION</button>
                        <tbody>
                           <% occupancyDetails.forEach(occupancy=> { %>
-                            <tr class="text-secondary">
-                              <td > 
-                                <small class="font-weight-bold mt-1"> <%= occupancy.reservationNumber %> </small> <br>
-                                <small class="font-weight-bold mt-1"> <%= occupancy.customer.firstName %> </small> <br>
-                                <small class="font-weight-bold mt-1"> <%= occupancy.customer.contactNumber %> </small> <br>
-                                <small class="font-weight-bold mt-1"> <%= occupancy.customer.email %> </small> <br>
-                                <small class="font-weight-bold mt-1"> <%= occupancy.customer.pincode %> </small> <br>
-                              </td>
-                              <td > 
-                                <small class="font-weight-bold  mt-1">  <%= occupancy.tariff.tariffName %>  </small> <br>
-                                <small class="font-weight-bold  mt-1">  Rent :<%= occupancy.bookings.specialRate %> Extra Person <%= occupancy.bookings.ExtraChargeRent %>   </small> <br>
+                            <tr class="text-dark">
+                              <td class="col-9"> 
+                                <small class=" mt-1"> <%= occupancy.reservationNumber %> </small> <br>
+                                <small class=" mt-1"> <%= occupancy.customer.firstName %> </small> <br>
+                                <small class=" mt-1"> <%= occupancy.customer.contactNumber %> </small> <br>
+                                <small class=" mt-1"> <%= occupancy.customer.email %> </small> <br>
+                                <small class=" mt-1"> <%= occupancy.customer.pincode %> </small> <br>
+                                <small class="  mt-1">  <%= occupancy.tariff.tariffName %>  </small> <br>
+                                <small class="  mt-1">  Rent :<%= occupancy.bookings.specialRate %> Extra Person <%= occupancy.bookings.ExtraChargeRent %>   </small> <br>
                                 <% if (occupancy.plan) { %>
-                                  <small class="font-weight-bold  mt-1">  <%= occupancy.plan.planName %>  </small> <br> 
-                                  <small class="font-weight-bold  mt-1">  Checkin plan :<%= occupancy.bookings.PlanAmount %> Extra person plan <%= occupancy.bookings.ExtraChargeRent %>   </small> <br>
+                                  <small class="  mt-1">  <%= occupancy.plan.planName %>  </small> <br> 
+                                  <small class="  mt-1">  Checkin plan :<%= occupancy.bookings.PlanAmount %> Extra person plan <%= occupancy.bookings.ExtraChargeRent %>   </small> <br>
                                   <% } %>
-                                <small class="font-weight-bold  mt-1">  Arrival <%= (occupancy.bookings.arrivalDate).toString().slice(0,21) %>  </small> <br>
-                                <small class="font-weight-bold  mt-1">  Departure <%= (occupancy.bookings.depart_Date).toString().slice(0,21) %>  </small> <br>
-                                <small class="font-weight-bold  mt-1">  <%= occupancy.bookings.specialrequierments %>  </small> <br>
-                                </td>
+                                <small class="  mt-1">  Arrival <%= (occupancy.bookings.arrivalDate).toString().slice(0,21) %>  </small> <br>
+                                <small class="  mt-1">  Departure <%= (occupancy.bookings.depart_Date).toString().slice(0,21) %>  </small> <br>
+                                <small class="  mt-1">  <%= occupancy.bookings.specialrequierments %>  </small> <br>
+                                
+                              </td>
+                               
                               <td > 
-                                <small class="font-weight-bold text-success  mt-1">  </small>
+                                <small class=" text-success  mt-1">  </small>
                               </td>
                               <td >
                                                                  
                               </td>
-                              <td >
+                              <td class="col-3">
                                 <%= console.log(occupancy) %>
                                 <% if (occupancy.room) { %>
-                                  <div class="container-fluid d-flex"> 
-                                    <button class="btn btn-warning col-6 bi bi-journal-bookmark-fill "> <%= occupancy.room.roomName %> </button>
-                                    <button onclick="unlinkAssignedReservation(event.target.value)" value="<%= occupancy.occupancyIndex %>" class="btn btn-danger col-6 bi bi-trash3 "> Unlink  </button>
+                                  <div class="container-fluid "> 
+                                    <button class="btn col-12  "> <%= occupancy.room.roomName %> </button>
+                                    <button onclick="unlinkAssignedReservation(event.target.value)" value="<%= occupancy.occupancyIndex %>" class="btn btn-secondary col-12 bi bi-trash3  w-100 "> Unlink  </button>
                                   
                                   </div>
                                   <% } else { %>
-                                    <button type="button " onclick="loadAvailableRooms(event.target.value)" value="<%= JSON.stringify(occupancy) %>"  class="btn btn-sm btn-success bi bi-power col-6"> SHOW ROOMS </button>
-                                    <button type="button " onclick="updateReservationWithRoom(event.target.value)" value="<%=JSON.stringify(occupancy) %>"  class="btn btn-sm btn-success bi bi-power col-5 "> SAVE</button>  
+                                    <button type="button " onclick="updateReservationWithRoom(event.target.value)" value="<%=JSON.stringify(occupancy) %>"  class="text-left bi bi-file-arrow-up btn btn-success  w-100 m-1 col-12   "> SAVE</button>  
+                                    
+                                    <button type="button " onclick="loadAvailableRooms(event.target.value)" value="<%= JSON.stringify(occupancy) %>"  class="text-left btn bi bi-journal-bookmark-fill btn-secondary w-100 m-1"> ROOMS </button>
                                     <select  class="btn col-12"  name="nameAvailableRoom" id="idAvailableRoom<%= occupancy.occupancyIndex %>" >
                                       <option  value="">  </option> 
                                        
@@ -125,16 +126,16 @@
             </div>  
             <div class="col-lg-6 col-sm-12  container-fluid "  >
                 <% if ( Plans ) { %>
-                <div id="idDivPlans" class="col-12 container-fluid border rounded  border-primary p-1 m-2" style=" height: 250px; overflow: hidden ;">
-                  <div class="table-responsive  border-primary  " >
-                    <table class="table border-primary d-flex">
-                      <button onclick="collapse('idDivPlans', 250 )" class="bi bi-caret-down-square  btn btn-primary  "> Checkin Plans</button>
+                <div id="idDivPlans" class="col-12 container-fluid border rounded  border-secondary p-1 m-2" style=" height: 250px; overflow: hidden ;">
+                  <div class="table-responsive  border-secondary  " >
+                    <table class="table border-secondary d-flex">
+                      <button onclick="collapse('idDivPlans', 250 )" class="bi bi-caret-down-square  btn btn-secondary  "> Checkin Plans</button>
                       <button type="button " data-bs-toggle="modal" data-bs-target="#idModalnewCheckinPlan"
                       class="btn btn-success h-100 btn bi bi-clipboard-plus  text-light "> CREATE  </button>
-                      <tbody>
+                      <tbody class="col-12">
                        
                           <% Plans.forEach(plans=> { %>
-                            <tr>
+                            <tr class="col-12">
                               <td class="col-3">
                                 <small class="font-weight-bold mt-1  ">
                                   <%= plans.planName %>
@@ -143,21 +144,21 @@
                               <td class="col-2">
                                 <small class="font-weight-bold  mt-1"> &#8377 <%= plans.amount %>(<%= plans.maxPax %>) </small>
                               </td>
-                              <td class="col-2">
+                              <td class="col-3">
                                 <small class="font-weight-bold  mt-1"> Extra &#8377 <%= plans.extraCharge %>/- </small>
                                 
                               </td>
                               <td class="col-4">
                                 <div class="container-fluid">
-                                  <button data-bs-toggle="modal" data-bs-target="#idModalnewCheckinPlan<%=plans.planIndex%>"  type="button" class="btn  btn-warning bi bi-pencil-fill">EDIT</button>
+                                  <button data-bs-toggle="modal" data-bs-target="#idModalnewCheckinPlan<%=plans.planIndex%>" style="background-color: rgb(82,105,86);"  type="button" class="btn text-light   bi bi-pencil-fill"></button>
                                   <% if (plans.isActive) { %>
                                     <button type="button" value="<%=plans.planIndex%>,<%=profile.CompanyID%>"
                                       onclick="enableplanModal(event.target.value)"
-                                      class="btn bi bi-power btn-danger "> OFF </button>
+                                      class="btn bi bi-power text-light " style="background-color: rgb(162, 3, 3);">  </button>
                                     <% } else { %>
                                       <button type="button" value="<%=plans.planIndex%>,<%=profile.CompanyID%>"
                                         onclick="enableplanModal(event.target.value)"
-                                        class="btn bi bi-power    btn-success"> ON </button>
+                                        class="btn bi bi-power    btn-success">  </button>
                                       <% } %>
                                 </div>
                   
@@ -173,34 +174,34 @@
                 </div>
                 <% } %>
                 <% if ( tariffPackages ) { %>
-                  <div id="idTariffDetails" class="  container-fluid border border-primary rounded p-2  m-2"style="height:250px;   overflow: hidden ;" >
-                  <div class="table-responsive bg-white border-primary " >
+                  <div id="idTariffDetails" class="  container-fluid border border-secondary rounded p-2  m-2"style="height:250px;   overflow: hidden ;" >
+                  <div class="table-responsive bg-white border-secondary " >
                     <table class="table">
-                      <button onclick="collapse('idTariffDetails', 250 )" class="bi bi-caret-down-square  btn btn-primary  "> Classification</button onclick="">
+                      <button onclick="collapse('idTariffDetails', 250 )" class="bi bi-caret-down-square  btn btn-secondary  "> Classification</button onclick="">
                         <button class="btn btn-success  bi bi-clipboard-plus" data-bs-toggle="modal"  data-bs-target="#idModalnewTariff"> CREATE  </button>   
-                        <tbody>
+                        <tbody class="col-12">
                       
                             <% tariffPackages.forEach(tariff => { %>
                               <tr >
-                                  <td class="">
+                                  <td class="col-3">
                                       <small class="font-weight-bold mt-1  "> <%= tariff.tariffName %> </small>
                                 </td>
-                                <td class="">
+                                <td class="col-2">
                                   <small class="font-weight-bold  mt-1"> &#8377 <%= tariff.SpecialRent %>(2)  </small>
                                 </td>
-                                <td>
+                                <td class="col-3">
                                   <small class="font-weight-bold  mt-1">Extra &#8377 <%= tariff.extraPerson %>/-  </small>
                                     
                                   </td>
                       
-                                <td>
-                                  <button class="btn btn-warning bi bi-pencil-fill" data-bs-toggle="modal"  data-bs-target="#<%= tariff.tariffName%>"value="<%= tariff.tariffIndex %>"   >EDIT</button>
+                                <td class="col-4">
+                                  <button class="btn  text-light bi bi-pencil-fill" style="background-color: rgb(82,105,86);" data-bs-toggle="modal"  data-bs-target="#<%= tariff.tariffName%>"value="<%= tariff.tariffIndex %>"   ></button>
                                   
                        
                                   <% if (!tariff.isActive) { %>
-                                    <button id="'btn'+<%= tariff.tariffname %>"value="<%= tariff.tariffIndex%>,<%= profile.CompanyID%>"class="btn btn-success  bi bi-power" type="button" onclick="enableTariff(event.target.value)"> ON </button>
+                                    <button id="'btn'+<%= tariff.tariffname %>"value="<%= tariff.tariffIndex%>,<%= profile.CompanyID%>"class="btn btn-success  bi bi-power" type="button" onclick="enableTariff(event.target.value)">  </button>
                                 <% } else { %>
-                                    <button id="'btn'+<%= tariff.tariffname %>" value="<%= tariff.tariffIndex%>,<%= profile.CompanyID%>" class="btn btn-danger  bi bi-power" type="button" onclick="freezeTariff(event.target.value)">OFF </button>
+                                    <button id="'btn'+<%= tariff.tariffname %>" value="<%= tariff.tariffIndex%>,<%= profile.CompanyID%>" class="btn  text-light  bi bi-power"  style="background-color: rgb(162, 3, 3);" type="button" onclick="freezeTariff(event.target.value)"> </button>
                                 <% } %>
                                 </td>
                               </tr>
@@ -215,11 +216,11 @@
                 <% } %>
 
               <% if ( availablerooms ) { %>
-                  <div id="idRoomDetails" class="  container-fluid border border-primary  rounded  p-1 m-2" style=" height: 250px; overflow: hidden ;">
-                    <div class="table-responsive bg-white border-primary " >
+                  <div id="idRoomDetails" class="  container-fluid border border-secondary  rounded  p-1 m-2" style=" height: 250px; overflow: hidden ;">
+                    <div class="table-responsive bg-white border-secondary " >
                       <table class="table">
                         <div class="container justify-content-evenly">
-                          <button onclick="collapse('idRoomDetails', 250 )"  class="bi bi-caret-down-square btn btn-primary"> Rooms </button>
+                          <button onclick="collapse('idRoomDetails', 250 )"  class="bi bi-caret-down-square btn btn-secondary"> Rooms </button>
                           <button class="btn btn-success bi bi-clipboard-plus  " data-bs-toggle="modal"
                           data-bs-target="#idModalnewRoom"> CREATE </button>
                         </div>
@@ -242,11 +243,11 @@
                                   <small class="font-weight-bold  mt-1"> <%= items.category %> </small>
                                 </td>
                                 <td>
-                                  <button type="button"data-bs-toggle="modal"  data-bs-target="#<%= items.roomIndex%>"class="btn btn-sm btn-warning bi bi-pencil-fill">EDIT</button>
+                                  <button type="button"data-bs-toggle="modal"  data-bs-target="#<%= items.roomIndex%>"  style="background-color:rgb(102,123,106);" class="btn text-light  bi bi-pencil-fill"></button>
                                   <% if (items.blocked) { %>
-                                    <button type="button" id="idSwitchRoomsStatus<%= items.roomIndex%>" onclick="switchRoomStatus(event.target.value,'idSwitchRoomsStatus<%= items.roomIndex%>')" value="<%= items.roomIndex%>" class="btn  btn-success bi bi-power  ">ON </button>
+                                    <button type="button" id="idSwitchRoomsStatus<%= items.roomIndex%>" onclick="switchRoomStatus(event.target.value,'idSwitchRoomsStatus<%= items.roomIndex%>')" value="<%= items.roomIndex%>" class="btn  btn-success bi bi-power  "> </button>
                                     <% } else { %>
-                                    <button type="button" id="idSwitchRoomsStatus<%= items.roomIndex%>" onclick="switchRoomStatus(event.target.value,'idSwitchRoomsStatus<%= items.roomIndex%>')" value="<%= items.roomIndex%>"  class="btn  btn-danger bi bi-power  ">OFF </button>
+                                    <button type="button" id="idSwitchRoomsStatus<%= items.roomIndex%>" onclick="switchRoomStatus(event.target.value,'idSwitchRoomsStatus<%= items.roomIndex%>')" value="<%= items.roomIndex%>"  style="background-color: rgb(162, 3, 3);" class="btn  text-light bi bi-power  "> </button>
                                   <% } %>
                                   
                                 </td>
@@ -262,10 +263,10 @@
               <% } %>
 
               <% if ( reservation ) { %>
-                <div id="idReservations" class="  container-fluid border border-primary rounded  p-1 m-2" style=" height: 250px; overflow: hidden ;">
-                  <div class="table-responsive bg-white border-primary " >
+                <div id="idReservations" class="  container-fluid border border-secondary rounded  p-1 m-2" style=" height: 250px; overflow: hidden ;">
+                  <div class="table-responsive bg-white border-secondary " >
                     <table class="table">
-                      <button onclick="collapse('idReservations', 250 )" class="bi bi-caret-down-square  btn btn-primary  "> Reservations   </button> 
+                      <button onclick="collapse('idReservations', 250 )" class="bi bi-caret-down-square  btn btn-secondary  "> Reservations   </button> 
                       <tbody>
                       
                           
@@ -276,26 +277,23 @@
                                   <%= items.reservationNumber %> <br>
                                 </small>
                                   <small class="font-weight-bold mt-1"><%= items.tariffName %>  </small>
-                                
-                              </td>
-                              <td>
-                                
-                                <small class="font-weight-bold  mt-1"> <%= items.firstName %> </small> <br>
+                                  <small class="font-weight-bold  mt-1"> <%= items.firstName %> </small> <br>
                                 <small class="   mt-1"> <%= items.email %> </small> <br>
                                 <small class="  mt-1"> <%= items.contactNumber %> </small> <br>
                                 <small class="  mt-1"> <%= items.preferance %> </small> <br>
                                 
-                                </td> 
+                              </td>
+                               
                               <td>
-                                <button class="btn  btn-primary bi bi-box-arrow-in-down-right " > </button> <small class="font-weight-bold text-primary  mt-1 ">  ARR <%=  (items.arrivalDate).toString().slice(0,24) %>  </small> <br>
-                                <button class="btn  btn-warning bi bi-box-arrow-up-left" > </button> <small class="font-weight-bold text-warning  mt-1"> DEP <%=  (items.depart_Date).toString().slice(0,24) %>  </small> <br>
-                                <button class="btn  btn-info bi bi-house-door" > </button> <small class="font-weight-bold text-secondary  mt-1"> ROOMS <%= items.totalRoom %>  </small> <br> 
-                                <button class="btn  btn-secondary bi bi-people-fill" > </button> <small class="font-weight-bold text-secondary  mt-1"> GUEST <%= items.TotalPax %></small> 
+                                <button class="btn text-light bi bi-box-arrow-in-down-right " style="background-color: rgb(82,105,86);"> </button> <small class="font-weight-bold text-dark  mt-1 " >  ARR <%=  (items.arrivalDate).toString().slice(0,24) %>  </small> <br>
+                                <button class="btn text-light  bi bi-box-arrow-up-left" style="background-color: rgb(82,105,86);" > </button> <small class="font-weight-bold text-dark  mt-1"> DEP <%=  (items.depart_Date).toString().slice(0,24) %>  </small> <br>
+                                <button class="btn text-light  bi bi-house-door" style="background-color: rgb(82,105,86);" > </button> <small class="font-weight-bold text-dark  mt-1"> ROOMS <%= items.totalRoom %>  </small> <br> 
+                                <button class="btn text-light  bi bi-people-fill" style="background-color: rgb(82,105,86);" > </button> <small class="font-weight-bold text-dark  mt-1"> GUEST <%= items.TotalPax %></small> 
                                 
                                 
                               </td>
                               <td>
-                                <button type="button" class="btn btn-sm btn-danger bi bi-power">VIEW</button>
+                                <button type="button" hidden class="btn btn-sm btn-secondary bi bi-power">VIEW</button>
                   
                               </td>
                             </tr>
@@ -309,12 +307,12 @@
                 </div>
             <% } %>
             <% if ( payments ) { %>
-              <div id="idPayments" class="  container-fluid border border-primary rounded  p-1 m-2" style=" height: 250px; overflow: hidden ;">
-                <div class="table-responsive bg-white border-primary " >
+              <div id="idPayments" class="  container-fluid border border-secondary rounded  p-1 m-2" style=" height: 250px; overflow: hidden ;">
+                <div class="table-responsive bg-white border-secondary " >
                   <table class="table">
-                    <button onclick="collapse('idPayments', 250 )" class="bi bi-caret-down-square  btn btn-primary"> Collection </button>
+                    <button onclick="collapse('idPayments', 250 )" class="bi bi-caret-down-square  btn btn-secondary"> Collection </button>
                      <tbody>
-                      <tr class="border border-primary text-primary">
+                      <tr class="border border-secondary text-primary">
                         <td class="">
                           <small class="font-weight-bold mt-1  ">
                             VOUCHER
@@ -432,7 +430,7 @@
     </div>
         </div>..
         <div class="modal-footer">
-          <button type="button"  class="btn btn-warning bi bi-pencil">EDIT </button>
+          <button type="button"  class="btn  bi bi-pencil" style="background-color: rgb(82,105,86);"> </button>
           <button type="button" class="btn btn-secondary bi bi-x-octagon" data-bs-dismiss="modal">CANCEL</button>
           <button name="modalSubmit" type="button" onclick="savePlanToCompanies(event.target.value)" value="<%=newplan.planIndex%>" class="btn btn-success bi bi-send">SAVE</button>
         </div>
@@ -497,7 +495,7 @@
     </div>
         </div>..
         <div class="modal-footer">
-          <button type="button" value=" " onclick="EnabletariiModal(event.target.value)" class="btn btn-warning bi bi-pencil">EDIT </button>
+          <button type="button" value=" " onclick="EnabletariiModal(event.target.value)" class="btn bi bi-pencil" style="background-color: rgb(82,105,86);"> </button>
           <button type="button" class="btn btn-secondary bi bi-x-octagon" data-bs-dismiss="modal">CANCEL</button>
           <button name="modalSubmit" type="button" onclick="savePlanToCompanies('New')" value="" class="btn btn-success bi bi-send">SAVE</button>
         </div>
@@ -576,7 +574,7 @@
           </div>
         </div>..
         <div class="modal-footer">
-          <button type="button" value=" " onclick="EnabletariiModal(event.target.value)" class="btn btn-warning bi bi-pencil">EDIT </button>
+          <button type="button" value=" " onclick="EnabletariiModal(event.target.value)" class="btn btn-warning bi bi-pencil"> </button>
           <button type="button" class="btn btn-secondary bi bi-x-octagon" data-bs-dismiss="modal">CANCEL</button>
           <button name="modalSubmit" type="button" onclick="saveTariffToCompanies('')" value="" class="btn btn-success bi bi-send">SAVE</button>
         </div>
@@ -715,8 +713,8 @@
               <div class="col container-fluid ">
                 <button id="Bt_Save_Update" name="floorIndex"value="<%= items.roomIndex %>"  onclick="SaveRooms(event.target.value)" class="btn btn-success bi bi-send-plus-fill" type="submit"> </button>
                 <button class="btn btn-dark bi bi-trash3"  onclick="deleteRoom()" type="button"> </button>
-                <button  class="btn btn-warning bi bi-pencil-fill" onclick="MakeRoomreadOnlyFalse()"  type="button"> </button>           
-                <button  class="btn btn-primary bi bi-file-earmark-plus" onclick="CreatenewHuman()"  type="submit"> </button>            
+                <button  class="btn   bi bi-pencil-fill" style="background-color: rgb(82,105,86);" onclick="MakeRoomreadOnlyFalse()"  type="button"> </button>           
+                <button  class="btn btn-secondary bi bi-file-earmark-plus" onclick="CreatenewHuman()"  type="submit"> </button>            
         </div>
           </div>
           </div>..
@@ -803,7 +801,7 @@
             </div>
           </div>..
           <div class="modal-footer">
-            <button type="button" value="<%=element.tariffIndex%>" onclick="EnabletariiModal(event.target.value)" class="btn btn-warning bi bi-pencil">EDIT </button>
+            <button type="button" value="<%=element.tariffIndex%>" onclick="EnabletariiModal(event.target.value)" style="background-color: rgb(82,105,86);" class="btn    bi bi-pencil"> </button>
             <button type="button" class="btn btn-secondary bi bi-x-octagon" data-bs-dismiss="modal">CANCEL</button>
             <button name="modalSubmit" type="button" onclick="saveTariffToCompanies(event.target.value)" value="<%=element.tariffIndex%>" class="btn btn-success bi bi-send">SAVE</button>
             <button name="modalSubmit" type="button" onclick="deleteTariffPermanently(event.target.value)" value="<%=element.tariffIndex%>,<%= profile.CompanyID%>" class="btn btn-success bi bi-send"> DELETE </button>
@@ -883,7 +881,7 @@
             </div>
           </div>..
           <div class="modal-footer">
-            <button type="button" value=" " onclick="EnabletariiModal(event.target.value)" class="btn btn-warning bi bi-pencil">EDIT </button>
+            <button type="button" value=" " onclick="EnabletariiModal(event.target.value)" class="btn  bi bi-pencil" style="background-color: rgb(82,105,86);">EDIT </button>
             <button type="button" class="btn btn-secondary bi bi-x-octagon" data-bs-dismiss="modal">CANCEL</button>
             <button name="modalSubmit" type="button" onclick="saveTariffToCompanies('')" value="" class="btn btn-success bi bi-send">SAVE</button>
           </div>
@@ -1008,8 +1006,8 @@
               <div class="col container-fluid ">
                 <button id="Bt_Save_Update" name="floorIndex" value="" onclick="SaveRooms('')" class="btn btn-success bi bi-send-plus-fill" type="submit"> </button>
                 <button class="btn btn-dark bi bi-trash3" onclick="deleteRoom()" type="button"> </button>
-                <button  class="btn btn-warning bi bi-pencil-fill" onclick="MakeRoomreadOnlyFalse()"  type="button"> </button>           
-                <button  class="btn btn-primary bi bi-file-earmark-plus" onclick="CreatenewHuman()"  type="submit"> </button>            
+                <button  class="btn  bi bi-pencil-fill" style="background-color: rgb(82,105,86);" onclick="MakeRoomreadOnlyFalse()"  type="button"> </button>           
+                <button  class="btn btn-secondary bi bi-file-earmark-plus" onclick="CreatenewHuman()"  type="submit"> </button>            
         </div>
           </div>
           </div>..
