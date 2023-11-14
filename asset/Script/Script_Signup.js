@@ -202,7 +202,7 @@ async function verifyEmail(Email_Field,outputfield,path) {
         
         let signuptxt = document.getElementById('Signup_Email_text');
         
-        if (result.verified) {
+        if (result.verified && path != '/VerifyEmail') {
             
             while (document.getElementById(outputfield).classList.length > 0) {
                 document.getElementById(outputfield).classList.remove(document.getElementById(outputfield).classList.item(0));
@@ -215,6 +215,17 @@ async function verifyEmail(Email_Field,outputfield,path) {
             document.getElementById(outputfield).classList.add('bi-patch-check')
             
             alert("The email you entered is already Exist")
+        }
+        else if  (!result.verified && path == '/VerifyEmail'){
+            
+            while (document.getElementById(outputfield).classList.length > 0) {
+                document.getElementById(outputfield).classList.remove(document.getElementById(outputfield).classList.item(0));
+            }
+            document.getElementById(outputfield).classList.add('btn')
+            document.getElementById(outputfield).classList.add('btn-success')
+            document.getElementById(outputfield).classList.add('bi')
+            document.getElementById(outputfield).classList.add('bi-patch-check')
+            signuptxt.setAttribute("readonly", "true");
         }
         else {
             
