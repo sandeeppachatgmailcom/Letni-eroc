@@ -1,6 +1,5 @@
 const db = require('../model/mongoose')
 const mongose = require('mongoose');
-const adminController = require('../controller/adminController')
 
 const newPlan =mongose.Schema( {
     planIndex:{type:String,required:true,unique:true},

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const db = require('../model/mongoose')
-const controller = require('../controller/adminController')
 
 const newImageRecord = new mongoose.Schema({
     Documentindex: {type: String} ,

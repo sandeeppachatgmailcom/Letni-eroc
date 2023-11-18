@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const db = require('./mongoose');
-const controller =  require('../controller/adminController')
-const checkins = require('../model/checkIn')
-const checkinDetail = require('../model/checkinDetails')
-    const newRoom = new mongoose.Schema({
+const newRoom = new mongoose.Schema({
             occupancyIndex:{type:String},
             companyIndex:{type:String},
             tariffIndex:{type:String },

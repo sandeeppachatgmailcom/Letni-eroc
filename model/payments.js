@@ -1,8 +1,5 @@
 const mongoose = require('mongoose')
 const db = require('./mongoose')
-const controller = require('../controller/adminController')
-const voucherSerial = require('../model/voucherSerial') 
-const  hBank   = require('./humanbank')
 
 const NewPayment = new mongoose.Schema({
     transDate:{type:Date},

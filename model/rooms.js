@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 const db = require('./mongoose');
-const adminController = require('../controller/adminController')
-const floor = require ('../model/floor')
-const tariff = require('../model/tariff')
-const hBank = require('../model/humanbank')
 
 
 const newRoom = new mongoose.Schema({

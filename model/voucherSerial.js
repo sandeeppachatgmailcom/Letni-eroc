@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const db = require('./mongoose'); // Make sure this path is correct and points to your Mongoose connection setup file
 
-// Define a Mongoose schema
+ 
 const newSeries = new mongoose.Schema({
   bookName: { type: String },
   DepartMent:{ type: String },
@@ -13,8 +13,8 @@ const newSeries = new mongoose.Schema({
   deleted:{type:Boolean,default:false}
 });
 
-// Compile the Mongoose model
-const voucherSerial = mongoose.model('voucherSerial',newSeries);
+ 
+const voucherSerial = db.model('voucherSerial',newSeries);
 
 
  

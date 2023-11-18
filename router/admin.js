@@ -5,7 +5,7 @@ const checkin = require('../model/checkIn')
 const reserv = require('../functions/reservation')
 const fntcompany = require('../functions/company')
 const utils = require('../functions/commonUtils')
-const admin = require('../controller/admin')
+const admin = require('../functions/admin')
 
 router.post('/activateCompany',admin.postactivateCompany)
 router.get('/',admin.getRoot)

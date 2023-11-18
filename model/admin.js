@@ -1,8 +1,7 @@
 
 const mongoose = require('mongoose');
 const db = require('./mongoose');
-const adminController = require('../controller/adminController')
-const humanBank = require('../model/humanbank')
+
 
 const admin = mongoose.Schema({
     companyindex:{type:String,required:true,unique:true},

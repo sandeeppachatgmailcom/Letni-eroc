@@ -1,10 +1,5 @@
 const mongoose = require('mongoose');
 const db = require('./mongoose');
-const tariff = require('../model/tariff')
-const hBank = require('../model/humanbank')
-const checkin = require('../model/checkIn')
-const plan = require('../model/planMaster')
-const rooms = require('../model/rooms')
 
 
 const Newcheckin = new mongoose.Schema({

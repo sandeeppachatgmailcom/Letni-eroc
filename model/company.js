@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 const db = require('./mongoose'); // Ensure the correct path to your mongoose connection setup
-const  loadtariff  = require('./tariff');
-const controller = require('../controller/adminController')
-const checkinPlans =require('../model/planMaster')
-const document = require('../model/documents')
 
 const NewCompany = new mongoose.Schema({
     CompanyID: { type: String },

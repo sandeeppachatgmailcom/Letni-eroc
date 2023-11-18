@@ -1,7 +1,6 @@
 
 const mongoose = require('mongoose');
 const db = require('./mongoose');
-const adminController = require('../controller/adminController')
 
 const newPincode = mongoose.Schema({
      officename : {type:String},
