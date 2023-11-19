@@ -6,7 +6,8 @@ const Hbank = require('../functions/humanbank')
 
 
 async function resendOtp(Email,sessionID){
-    let result ;
+    try {
+        
     
         let transporter =await nodeMailer.createTransport({
             service: "gmail",
@@ -19,7 +20,7 @@ async function resendOtp(Email,sessionID){
             length: 6,
             charset: 'numeric',
         });
-        let randomOtp = otp
+         
         const mailOptions = {
             from: 'info@lajhna.com', // Sender email
             to: Email, // Recipient email
@@ -36,14 +37,15 @@ async function resendOtp(Email,sessionID){
             }
         });
 
-    
- 
- 
     return {upsertedCount:1};
+    } catch (error) {
+        
+    }
 } 
 
  
 async function validateOtp(Email,Otppassword,sessionID){
+   try {
     console.log(Email,Otppassword,'function here')
     const result = await OtpAuther.Otp.updateOne(
         { authorisationname: Email, otp: Otppassword },
@@ -51,13 +53,20 @@ async function validateOtp(Email,Otppassword,sessionID){
     const activateUser = await Hbank.HumanResource.updateOne({email:Email},{$set:{Active:true,activeSession:sessionID}})    
     console.log(result,'otp')
     return result;
+   } catch (error) {
+    console.log(error);
+   }
 } 
 async function makeOTPExpired(Email){
-     
+   try {
     const result = await OtpAuther.Otp.updateOne(
         { authorisationname: Email },
         { $set: { expired: true } });
     return result;
+   } catch (error) {
+    console.log(error);
+   }  
+   
 } 
  
 module.exports={validateOtp,makeOTPExpired,resendOtp}

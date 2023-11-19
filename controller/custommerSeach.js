@@ -11,10 +11,15 @@ const ftnReservation = require('../controller/ftnReservation');
 const payments = require('../functions/payments')
 
 const getRoot = (req,res)=>{
-    res.redirect('/')
+    try {
+        res.redirect('/')
+    } catch (error) {
+        console.log(error);
+    }
 } 
 const postviewReservation = async (req,res)=>{
     
+   try {
     console.log(req.body.bookingDetails);
     let temp = req.body.bookingDetails.split(',');
     let extrapax =parseInt(req.body.guestCount)- parseInt(req.body.roomCount*2)
@@ -47,25 +52,35 @@ if(user){
      
     res.render('confirmReservation',{user,company,checkinplan,tariffplans,BookingSummary})
 } 
-else  {res.redirect('/')}     
+else  {res.redirect('/')}   
+   } catch (error) {
+    console.log(error);
+   }  
 } 
  
 const postconfirmBooking = (req,res)=>{
-    res.json(req.body);
-    let temp = req.body.bookingDetails.split(',');
-    const BookingSummary={
-     totalRoom : req.body.roomCount,
-     totalGuest : req.body.guestCount,
-     companyID : temp[0],
-     tariffIndex : temp[1],
-     arrivalDate : temp[2],
-     departureDate : temp[3],
-}
+    try {
+        
+        res.json(req.body);
+        let temp = req.body.bookingDetails.split(',');
+        const BookingSummary={
+        totalRoom : req.body.roomCount,
+        totalGuest : req.body.guestCount,
+        companyID : temp[0],
+        tariffIndex : temp[1],
+        arrivalDate : temp[2],
+        departureDate : temp[3],
+        }
 
+    } catch (error) {
+        console.log(error);        
+    }
  
 } 
 
 const postcustomSearch = async (req,res)=>{
+    try {
+        
     let user = await human.HumanResource.findOne({activeSession:req.sessionID})
     if (!user)
     user = '';
@@ -109,9 +124,13 @@ const postcustomSearch = async (req,res)=>{
     
     
    
+    } catch (error) {
+        console.log(error);
+    }
 } 
 
-const getcustomSearch = async (req,res)=>{
+const getcustomSearch = async (req,res)=>{try {
+    
       
     let user = await human.HumanResource.findOne({activeSession:req.sessionID})
     if (!user)
@@ -151,9 +170,13 @@ const getcustomSearch = async (req,res)=>{
      let result = await companies.company.find({district:{ $regex: `^${req.body.ditrictName}`, $options: 'i' },deleted:false,Active:true})
      console.log(inputData,'inputdata');  
      res.render('detailedSearch',{user,result,generalData,tariff,district,inputData} )
+} catch (error) {
+  console.log(error)  
+}
  } 
 router.use('/TariffSearch',async (req,res)=>{
-    
+    try {
+        
     const generalData = await companies.SearchCompany('')
     const tariff = await tariffs.loadtariff('')
     let district = new Set();
@@ -170,15 +193,23 @@ router.use('/TariffSearch',async (req,res)=>{
      
     const inputData = req.body
     res.render('companyWiseDetails',{inputData,generalData,tariff,result,district,tariffDetails});
+    } catch (error) {
+        console.log(error);
+    }
      
 })
 router.use('/loadPlans',async(req,res)=>{
     
-    plans = await checkinplans.LoadPlan();
-    
-    res.json(plans);
+    try {
+        plans = await checkinplans.LoadPlan();
+        res.json(plans);
+    } catch (error) {
+        console.log(error);
+    }
 })
 const postloadHotelDetails =  async (req, res) => {
+    try {
+        
     const totalRoomSummary = await ftnReservation.getRoomAvailalability(req.body.hotelId);
     const reservationSummary = await ftnReservation.getReservationDateWise(req.body.StartDate, req.body.EndDate, req.body.hotelId,totalRoomSummary );
      console.log(totalRoomSummary,reservationSummary);
@@ -186,9 +217,14 @@ const postloadHotelDetails =  async (req, res) => {
     let result  = await companies.SearchbyCompanyByAny(req.body);
     result.roomtypes =  reservationSummary.roosObj
     res.json(result);
+    } catch (error) {
+        console.log(error);
+    }
 } 
 
 const getHome = async (req,res)=>{
+    try {
+        
     let user = await human.HumanResource.findOne({activeSession:req.sessionID})
      
     if(!user) {
@@ -248,6 +284,9 @@ const getHome = async (req,res)=>{
      
 
     res.render('custommerHomePage',{user,bookingDetails,paymentHistory})
+    } catch (error) {
+        console.log(error);
+    }
 } 
 
 

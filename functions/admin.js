@@ -17,7 +17,6 @@ const postloadHotelByPagebyNumber = async (req,res)=>{
 }
 
 const getRoot = async (req,res)=>{
-   
     res.render('adminlogin')
 } 
 const postadminLogin = async (req,res)=>{

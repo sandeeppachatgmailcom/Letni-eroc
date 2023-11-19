@@ -21,6 +21,8 @@ const getRoot = (req,res)=>{
 } 
 
 const postaddoccupancy = async (req,res)=>{
+  try {
+    
   req.body.session = req.sessionID;
   const verify = await HBank.verifyUser(req.body)
   if(verify.verified){
@@ -33,14 +35,23 @@ const postaddoccupancy = async (req,res)=>{
   else {
     res.redirect('/hotel')
   }
+  } catch (error) {
+   console.log(error); 
+  }
 } 
 const postunlinkRoom = async (req,res)=>{
-  
-  const unlinkBooking  = await fntReservation.unlinkBooking(req.body)  
-  res.json(unlinkBooking)
+  try {
+    const unlinkBooking  = await fntReservation.unlinkBooking(req.body)  
+    res.json(unlinkBooking)
+  } catch (error) {
+    console.log(error);
+  }
+ 
 } 
 
 const postupdateReservationWithRoom = async (req,res)=>{
+  try {
+    
   const dailydetails = await dailyoccupancy.occupancy.updateMany({occupancyIndex:req.body.occupancyIndex},{$set:{roomIndex:req.body.roomIndex}})   
   const checkinSummary = await reception.checkinDetails.updateOne({occupancyIndex:req.body.occupancyIndex},{$set:{roomIndex:req.body.roomIndex}})   
   console.log(dailydetails,'dailydetails',checkinSummary,'checkinSummary')
@@ -52,9 +63,14 @@ const postupdateReservationWithRoom = async (req,res)=>{
     })   
   }
   
+  } catch (error) {
+  console.log(error);  
+  }
 } 
 
 const postloadAvailableRooms = async (req,res)=>{
+  try {
+    
   
   let allRooms = await rooms.loadroomByCompanyId(req.body.companiIndex);
   
@@ -88,9 +104,13 @@ const postloadAvailableRooms = async (req,res)=>{
   }
   console.log(room,'room');
   res.json(room)
+  } catch (error) {
+    console.log(error);
+  }
 } 
 const getloadhomepage =  async (req, res) => {
-   
+   try {
+    
     const inputs = req.body;
      
     req.body.session = req.sessionID;
@@ -172,6 +192,9 @@ const getloadhomepage =  async (req, res) => {
     }
     
   
+   } catch (error) {
+  console.log(error);  
+   }
 
 }
 const postloadhomepage =  async (req, res) => {
@@ -270,6 +293,8 @@ const postloadhomepage =  async (req, res) => {
 
 } 
 const postsaveTariff = async (req, res) => {
+  try {
+    
   const user = await HBank.HumanResource.findOne({activeSession: req.sessionID, deleted: false });
   const profile = await companies.company.findOne({email:user.email});
   const newRoomType = {
@@ -331,8 +356,13 @@ const postsaveTariff = async (req, res) => {
       response = { matched: true };
     }
     res.json(response);
+  } catch (error) {
+    console.log(error);
+  }
 } 
 const postdisableTariff = async (req,res)=>{
+  try {
+    
   const result = await companies.company.updateOne(
     {CompanyID:req.body.CompanyID,
       'roomtypes.tariffIndex': req.body.tariffIndex
@@ -350,8 +380,13 @@ const postdisableTariff = async (req,res)=>{
  else if(!result.upsertedCount && result.matchedCount && result.modifiedCount ) responce={matched:true} 
  res.json(responce)
   
+  } catch (error) {
+  console.log(error);  
+  }
 } 
 const postenableTariff = async (req,res)=>{
+  try {
+    
   const result = await companies.company.updateOne(
     {CompanyID:req.body.CompanyID,
       'roomtypes.tariffIndex': req.body.tariffIndex
@@ -366,9 +401,13 @@ const postenableTariff = async (req,res)=>{
  else if(result.upsertedCount>0) responce={saved:true}
  else if(!result.upsertedCount && result.matchedCount && result.modifiedCount ) responce={matched:true} 
  res.json(responce)
+  } catch (error) {
+    console.log(error);
+  }
 } 
 const postdeletetariffPermanent = async (req,res)=>{
-
+try {
+  
   const result = await companies.company.updateOne(
     {CompanyID:req.body.CompanyID,
       'roomtypes.tariffIndex': req.body.tariffIndex
@@ -385,90 +424,105 @@ const postdeletetariffPermanent = async (req,res)=>{
  else if(result.upsertedCount>0) responce={saved:true}
  else if(!result.upsertedCount && result.matchedCount && result.modifiedCount ) responce={matched:true} 
  res.json(responce)
+} catch (error) {
+  console.log(error);
+}
 } 
 const postsavePlanToCompanies = async(req,res)=>{
+ try {
+  
+  const addToComp = await companies.insertNewCheckinPlan(req.body)
+  res.json(addToComp)
+ } catch (error) {
+  console.log(error);
+ }  
    
-   
-    const addToComp = await companies.insertNewCheckinPlan(req.body)
-   res.json(addToComp)
 } 
 const postactivatePlan = async (req,res)=>{
+ try {
   const result = await companies.activateCheckinplan(req.body);
   res.json(result);
+ } catch (error) {
+  console.log(error);
+ }
 } 
 const getloadtariff  = async (req, res) => {
-
-    const inputs = req.body;
-    const userlogrecord = {
-      username: req.body.Username,
-      sessionId: req.sessionID,
-      folder: req.path,
-      method: req.method,
-      loggedOut: false,
-      ip: req.ip,
-    };
-     
-    req.body.session = req.sessionID;
-    const result =await HBank.verifyUser(req.body)   
-     
-    const user = result.userdetails;
-    bookingDetails={};
-  if(result.verified){
-      const profile = await companies.company.findOne({email:req.body.userName});
-      if(!profile){
-        res.redirect('/custom/customSearch')
-        return
-      }
-      const activtariff = await tariff.loadtariff('');
-      const activePlans = await checkinPlans.LoadPlan();
-      let existingTariff = profile.roomtypes;
-      let existingPlan = profile.checkinplan;
-      const availablerooms =await rooms.loadroomByCompanyId(profile.CompanyID);
-      const floors = await floorMaster.loadAllFloor()
-      const category = await tariffmaster.loadtariff('')
-      let Plans = existingPlan.filter(item1=>
-      activePlans.some(item2=>item2.planIndex ==item1.planIndex)); 
-     
-      let tariffPackages = existingTariff.filter(item1 =>
-      activtariff.some(item2 => item2.tariffIndex === item1.tariffIndex)
-      );
-
-      if(Plans.length<1){
-        Plans = await checkinPlans.LoadPlan()
-        Plans.map(async (element)=>{
-          element.activated = false;
-          await companies.company.updateOne(
-            {CompanyID:profile.CompanyID},
-            {$push:{"checkinplan":element}},
-            {upsert:true}
-            );
-        });
-      }
-
-     if (tariffPackages.length < 1) {
-        tariffPackages = await tariff.loadtariff('')
-        const tariffPromises = tariffPackages.map(async (element) => {
-        element.activated = false;
-        const tempTariff = await companies.company.updateOne(
-          { CompanyID: profile.CompanyID },
-          { $push: { "roomtypes": element } },
-          { upsert: true }
-        );
-       });
-      await Promise.all(tariffPromises);
-     }
-    else {
-     }
-    res.cookie('userName',req.body.userName)
-    if (!availablerooms )availablerooms={};
-    res.render('companyhomePage', { user, tariffPackages, profile, inputs,Plans,availablerooms,floors,category });
-    
-  }
-  else{
-    res.redirect('/')
-  }
-    
+try {
   
+  const inputs = req.body;
+  const userlogrecord = {
+    username: req.body.Username,
+    sessionId: req.sessionID,
+    folder: req.path,
+    method: req.method,
+    loggedOut: false,
+    ip: req.ip,
+  };
+   
+  req.body.session = req.sessionID;
+  const result =await HBank.verifyUser(req.body)   
+   
+  const user = result.userdetails;
+  bookingDetails={};
+if(result.verified){
+    const profile = await companies.company.findOne({email:req.body.userName});
+    if(!profile){
+      res.redirect('/custom/customSearch')
+      return
+    }
+    const activtariff = await tariff.loadtariff('');
+    const activePlans = await checkinPlans.LoadPlan();
+    let existingTariff = profile.roomtypes;
+    let existingPlan = profile.checkinplan;
+    const availablerooms =await rooms.loadroomByCompanyId(profile.CompanyID);
+    const floors = await floorMaster.loadAllFloor()
+    const category = await tariffmaster.loadtariff('')
+    let Plans = existingPlan.filter(item1=>
+    activePlans.some(item2=>item2.planIndex ==item1.planIndex)); 
+   
+    let tariffPackages = existingTariff.filter(item1 =>
+    activtariff.some(item2 => item2.tariffIndex === item1.tariffIndex)
+    );
+
+    if(Plans.length<1){
+      Plans = await checkinPlans.LoadPlan()
+      Plans.map(async (element)=>{
+        element.activated = false;
+        await companies.company.updateOne(
+          {CompanyID:profile.CompanyID},
+          {$push:{"checkinplan":element}},
+          {upsert:true}
+          );
+      });
+    }
+
+   if (tariffPackages.length < 1) {
+      tariffPackages = await tariff.loadtariff('')
+      const tariffPromises = tariffPackages.map(async (element) => {
+      element.activated = false;
+      const tempTariff = await companies.company.updateOne(
+        { CompanyID: profile.CompanyID },
+        { $push: { "roomtypes": element } },
+        { upsert: true }
+      );
+     });
+    await Promise.all(tariffPromises);
+   }
+  else {
+   }
+  res.cookie('userName',req.body.userName)
+  if (!availablerooms )availablerooms={};
+  res.render('companyhomePage', { user, tariffPackages, profile, inputs,Plans,availablerooms,floors,category });
+  
+}
+else{
+  res.redirect('/')
+}
+  
+
+} catch (error) {
+  console.log(error);
+}
 
 } ;
 

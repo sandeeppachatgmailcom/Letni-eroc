@@ -1,3 +1,4 @@
+const { LogarithmicScale } = require('chart.js');
 const Razorpay = require('razorpay')
 
 var instance = new Razorpay({
@@ -11,25 +12,37 @@ var instance = new Razorpay({
 
   
 async function RazorCreateOrder(amount,invoiceNumber){
-   
-    let options = {
-        amount: amount * 100,  // amount in the smallest currency unit
-        currency: "INR",
-        receipt: invoiceNumber
-      };
-      return await instance.orders.create(options)
+   try {
+    
+    const options = {
+      amount: amount * 100,  // amount in the smallest currency unit
+      currency: "INR",
+      receipt: invoiceNumber
+    };
+    return await instance.orders.create(options)
+   } catch (error) {
+    console.log(error);
+   }
     
 }
 
 async function razorMatchPayment(paymentID){
     
-
-      return await instance.payments.fetch(paymentID)
+try {
+  
+  return await instance.payments.fetch(paymentID)
+} catch (error) {
+  console.log(error);
+}
     
     
 }
 
 async function razorRefundPayment(paymentID){
-    return await instance.payments.refund(paymentID)
+ try {
+  return await instance.payments.refund(paymentID)
+ } catch (error) {
+  console.log(error);
+ }
 }
 module.exports = {RazorCreateOrder,razorMatchPayment,razorRefundPayment}

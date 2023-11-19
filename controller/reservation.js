@@ -11,20 +11,20 @@ const getRoot = (req,res)=>{
 } 
 
 const postcancelBooking= async (req,res)=>{
+try {
   const cancel =await checkin.cancelResevation(req.body);
   console.log(cancel,'message in backend');
   res.json(cancel);
 
-
-
-
-
+} catch (error) {
   
+}
 }
 
   
 const postsavereservation =  async (req, res) => {
-  const userDetails = await hbank.HumanResource.findOne({ activeSession: req.sessionID })
+  try {
+    const userDetails = await hbank.HumanResource.findOne({ activeSession: req.sessionID })
   req.body.custId = userDetails.hrId
   if (userDetails.country != 'India') req.body.Foreigner = true
   else req.body.Foreigner = false
@@ -69,11 +69,15 @@ const postsavereservation =  async (req, res) => {
   const order = await Razorpaytrans.RazorCreateOrder(totalAmount,result.reference)
   
   res.json({ success: true, order, totalAmount,result })
+  } catch (error) {
+    console.log(error);
+  }
 } 
 
 const postconfirmPayment = async (req, res) => {
    
-   
+   try {
+    
    
    
   let bookingDetails = req.body.bookingDetails
@@ -113,6 +117,9 @@ const postconfirmPayment = async (req, res) => {
     // const cancelBooking = await checkin.cancelBooking(req.body)  
     res.json({ status: false });
   }
+   } catch (error) {
+   console.log(error); 
+   }
 }
  
 module.exports = {getRoot,postsavereservation,postconfirmPayment,postcancelBooking};

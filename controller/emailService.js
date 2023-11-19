@@ -7,6 +7,8 @@ const validation = require('../model/otpvalidation')
 
 
 async function sendotpmail(toemail,sessionID){
+    try {
+        
     console.log('reached mailer ');
     let transporter = await nodeMailer.createTransport({
         service: "gmail",
@@ -42,6 +44,9 @@ async function sendotpmail(toemail,sessionID){
            return {otp:true} 
         }
     });
+    } catch (error) {
+       console.log(error); 
+    }
 
 }
 

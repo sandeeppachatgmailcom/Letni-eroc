@@ -11,13 +11,16 @@ const getRoot = (req,res)=>{
   res.redirect('/hotel')
 } 
 const postloadcustommer = async (req,res)=>{
-    
+  try {
     const result = await company.loadcompany('');
-    
     res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
 } 
 const postswitchRoomStatus = async (req,res)=>{
-  let result = await rooms.depart.findOne({roomIndex:req.body.roomIndex},{blocked:1,_id:0})
+ try {
+  const result = await rooms.depart.findOne({roomIndex:req.body.roomIndex},{blocked:1,_id:0})
   if(result.blocked){
        await rooms.depart.updateOne({roomIndex:req.body.roomIndex},{$set:{blocked:false}})
   }
@@ -27,8 +30,13 @@ const postswitchRoomStatus = async (req,res)=>{
   const reply = await rooms.depart.findOne({roomIndex:req.body.roomIndex},{blocked:1,_id:0})
   
   res.json(reply);
+ } catch (error) {
+  console.log(error);
+ }
 } 
 const getloadTariff = async (req,res)=>{
+  try {
+    
     req.body.session = req.sessionID;
     const result =await HBank.verifyUser(req.body)  
     const user = await HBank.HumanResource.findOne({activeSession: req.sessionID, deleted: false },{password:0});
@@ -73,11 +81,15 @@ const getloadTariff = async (req,res)=>{
     else{
         res.redirect('/')
       }  
-  
+ 
+  } catch (error) {
+    console.log(error);   
+  } 
 } 
 
 const getloadPlan = async (req,res)=>{
-    req.body.session = req.sessionID;
+    try {
+      req.body.session = req.sessionID;
     const result =await HBank.verifyUser(req.body)  
     const user = await HBank.HumanResource.findOne({activeSession: req.sessionID, deleted: false },{password:0});
     if(result.verified){
@@ -124,10 +136,14 @@ const getloadPlan = async (req,res)=>{
       }  
   
 
+    } catch (error) {
+      console.log(error);      
+    }
     }  
 
 const getloadRoom = async (req,res)=>{
-    req.body.session = req.sessionID;
+    try {
+      req.body.session = req.sessionID;
     const result =await HBank.verifyUser(req.body)  
     const user = await HBank.HumanResource.findOne({activeSession: req.sessionID, deleted: false },{password:0});
      
@@ -157,9 +173,13 @@ const getloadRoom = async (req,res)=>{
       }  
   
 
+    } catch (error) {
+      console.log(error);      
+    }
     } 
 const getCompany = async(req,res)=>{
-  req.body.session = req.sessionID;
+  try {
+    req.body.session = req.sessionID;
   let user=''
   const verify = await HBank.verifyUser(req.body)
   if(verify.verified){
@@ -178,36 +198,57 @@ const getCompany = async(req,res)=>{
      
     res.render('companies',{data,count,pincode,user});
 
+  } catch (error) {
+    console.log(error)    
+  }
 } 
 
 const postSaveCompany =  async (req,res)=>{
      
-    let imgArray = [];
-    for (let i = 0; i < req.files.length; i++) {
-      imgArray.push('http://localhost:5200/Images/'+req.files[i].filename);
+    try {
+        let imgArray = [];
+        for (let i = 0; i < req.files.length; i++) {
+          imgArray.push('http://localhost:5200/Images/'+req.files[i].filename);
+        }
+        req.body.imagearray = imgArray;
+        let result =await companies.saveCompany(req.body) ;
+        if((result.modifiedCount + result.upsertedCount)>0){result = {saved:true}}
+        else {result={saved:false}}
+        res.json(result)
+    } catch (error) {
+      
     }
-    req.body.imagearray = imgArray;
-    let result =await companies.saveCompany(req.body) ;
-    if((result.modifiedCount + result.upsertedCount)>0){result = {saved:true}}
-    else {result={saved:false}}
-    res.json(result)
     } 
 
 const postsearchCompany =async (req,res)=>{
+  try {
+  
     let data = await companies.SearchCompany(req.body.searchvalue);
     res.render('human',{data});
+} catch (error) {
+  console.log(error);
+}
 }  
 const postDeleteCompany =  async (req, res) => {
+  try {
+    
     let result = await companies.deleteCompany(req.body.hrId)
     if ((result.modifiedCount + result.upsertedCount) > 0) { result = { deleted: true } }
     else { result = { deleted: false } }
     res.json(result)
+  } catch (error) {
+    console.log(error);
+  }
 } 
 
 const loadActivecompanies = async ()=>{
-  const comp = await companies.company.find({deleted:false}).skip(1).limit(7)
+  try {
+    const comp = await companies.company.find({deleted:false}).skip(1).limit(7)
   console.log(comp,'comp');
   return comp;
+  } catch (error) {
+    console.log(error);
+  }
 }
 module.exports={postloadcustommer,getRoot,postswitchRoomStatus,getloadTariff,getloadPlan,
   getloadRoom,getCompany,postSaveCompany,postsearchCompany,postDeleteCompany,loadActivecompanies};

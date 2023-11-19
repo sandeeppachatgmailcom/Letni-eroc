@@ -6,6 +6,8 @@ const getRoot = (req,res)=>{
     res.redirect('/')
 } 
 const postupload = async (req, res) => {
+    try {
+        
     console.log('Reached image router ');
     let imageArray = [];
     for (let i = 0; i < req.files.length; i++) {
@@ -16,9 +18,14 @@ const postupload = async (req, res) => {
     const saveImage = await imageDoc.saveImage(req.body) 
     console.log(saveImage,'before responce');
     res.json(saveImage)
+    } catch (error) {
+        console.log(error);
+    }
     
 } 
 const postuploadImage= (req, res) => {
+    try {
+        
     console.log('Reached image router ');
     let imageArray = [];
     for (let i = 0; i < req.files.length; i++) {
@@ -26,6 +33,9 @@ const postuploadImage= (req, res) => {
     }
     console.log(imageArray[0]);
     res.json(imageArray[0])
+    } catch (error) {
+        console.log(error);
+    }
 } 
 
 module.exports ={getRoot,postupload,postuploadImage};

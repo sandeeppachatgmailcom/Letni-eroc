@@ -9,95 +9,111 @@ const document = require('../model/documents')
  
 
 async function  getCompanySummary(){
-const allcompany = await modelcompany.company.find({deleted:false})
-const allrooms = await rooms.depart.find({deleted:false})
-
-let summary = []
-allcompany.map( (async hotel=>{
-    const roomTypes = hotel.roomtypes;
-    const plans = hotel.checkinplan;
-    const activeroomTypes = roomTypes.filter(item=> item.isActive==true) 
-    const activePlans = plans.filter(item=> item.isActive==true)
-    const ActiveRooms = allrooms.filter(room=> room.companyIndex==hotel.CompanyID )
+try {
+    const allcompany = await modelcompany.company.find({deleted:false})
+    const allrooms = await rooms.depart.find({deleted:false})
+    
+    let summary = []
+    allcompany.map( (async hotel=>{
+        const roomTypes = hotel.roomtypes;
+        const plans = hotel.checkinplan;
+        const activeroomTypes = roomTypes.filter(item=> item.isActive==true) 
+        const activePlans = plans.filter(item=> item.isActive==true)
+        const ActiveRooms = allrooms.filter(room=> room.companyIndex==hotel.CompanyID )
+         
+        const data ={
+            companyId:hotel.CompanyID,
+            firstName : hotel.firstName ,
+            email:hotel.email,
+            active:hotel.Active,
+            contactNumber :hotel.contactNumber,
+            activeTariff : activeroomTypes.length,
+            activePlans: activePlans.length ,
+            totalRooms : ActiveRooms.length
+        }
+        summary.push(data)
+    }))  
      
-    const data ={
-        companyId:hotel.CompanyID,
-        firstName : hotel.firstName ,
-        email:hotel.email,
-        active:hotel.Active,
-        contactNumber :hotel.contactNumber,
-        activeTariff : activeroomTypes.length,
-        activePlans: activePlans.length ,
-        totalRooms : ActiveRooms.length
-    }
-    summary.push(data)
-}))  
- 
-return summary
+    return summary
+} catch (error) {
+    console.log(error);
+}
 }
 async function changeCompanyActiveNot(reqObj){
-    let result ={
-        active:false,
-        message:''
+    try {
+        let result ={
+            active:false,
+            message:''
+        }
+    const Active =  await modelcompany.company.findOne({CompanyID:reqObj.CompanyID},{_id:0,Active:1})
+     
+    if(Active.Active){
+        const update  = await modelcompany.company.updateOne({CompanyID:reqObj.CompanyID},{$set:{Active:false}})
+            result.active=false  
+            result.message= 'company deactivated'
     }
-const Active =  await modelcompany.company.findOne({CompanyID:reqObj.CompanyID},{_id:0,Active:1})
- 
-if(Active.Active){
-    const update  = await modelcompany.company.updateOne({CompanyID:reqObj.CompanyID},{$set:{Active:false}})
-        result.active=false  
-        result.message= 'company deactivated'
-}
-else{
-    const update = await modelcompany.company.updateOne({CompanyID:reqObj.CompanyID},{$set:{Active:true}})
-        result.active=true  
-        result.message= 'company Activated'
-}
- 
-return result;
+    else{
+        const update = await modelcompany.company.updateOne({CompanyID:reqObj.CompanyID},{$set:{Active:true}})
+            result.active=true  
+            result.message= 'company Activated'
+    }
+     
+    return result;
+    } catch (error) {
+        console.log(error);
+    }
 }
 const company = modelcompany.company;
  
 
 async function saveCompany(objcompany) {
-    if (!objcompany.CompanyID) { objcompany.CompanyID = await controller.getIndex('COMPANY') }
-     
-    if(objcompany.imagearray[0]==""){objcompany.imagearray[0] =await company.findOne({ CompanyID: objcompany.CompanyID }, { image1: 1, _id: 0 })}
-    if(objcompany.imagearray[1]==""){objcompany.imagearray[1] =await company.findOne({ CompanyID: objcompany.CompanyID }, { image2: 1, _id: 0 })}
-    const data = {
-        CompanyID:objcompany.CompanyID,
-        firstName:objcompany.firstname,
-        lastName:objcompany.lastName,
-        contactNumber:objcompany.contactNumber,
-        secondaryNumber:objcompany.secondaryNumber,
-        email:objcompany.email,
-        buildingNumber:objcompany.buildingNumber,
-        BuildingName:objcompany.BuildingNameName,
-        StreetName:objcompany.StreetName,
-        district:objcompany.district,
-        city:objcompany.city,
-        pincode:objcompany.pincode,
-        state:objcompany.state,
-        country:objcompany.country,
-        Active:objcompany.Active,
-        isloggedIn:objcompany.isloggedIn,
-        pancard:objcompany.pancard,
-        RegisteredDate:objcompany.RegisteredDate,
-        deleted:objcompany.deleted,
-        createduser:objcompany.createduser ,
-        image1:objcompany.CompanyID+'image1',
-        image2:objcompany.CompanyID+'image2',
-        image3:objcompany.CompanyID+'image3',
-        Companydiscription:objcompany.Companydiscription
-       } 
-   
-    const result = await modelcompany.company.updateOne({ CompanyID: objcompany.CompanyID }, { $set: data }, { upsert: true })
-    return result;
-    
+    try {
+        if (!objcompany.CompanyID) { objcompany.CompanyID = await controller.getIndex('COMPANY') }
+         
+        if(objcompany.imagearray[0]==""){objcompany.imagearray[0] =await company.findOne({ CompanyID: objcompany.CompanyID }, { image1: 1, _id: 0 })}
+        if(objcompany.imagearray[1]==""){objcompany.imagearray[1] =await company.findOne({ CompanyID: objcompany.CompanyID }, { image2: 1, _id: 0 })}
+        const data = {
+            CompanyID:objcompany.CompanyID,
+            firstName:objcompany.firstname,
+            lastName:objcompany.lastName,
+            contactNumber:objcompany.contactNumber,
+            secondaryNumber:objcompany.secondaryNumber,
+            email:objcompany.email,
+            buildingNumber:objcompany.buildingNumber,
+            BuildingName:objcompany.BuildingNameName,
+            StreetName:objcompany.StreetName,
+            district:objcompany.district,
+            city:objcompany.city,
+            pincode:objcompany.pincode,
+            state:objcompany.state,
+            country:objcompany.country,
+            Active:objcompany.Active,
+            isloggedIn:objcompany.isloggedIn,
+            pancard:objcompany.pancard,
+            RegisteredDate:objcompany.RegisteredDate,
+            deleted:objcompany.deleted,
+            createduser:objcompany.createduser ,
+            image1:objcompany.CompanyID+'image1',
+            image2:objcompany.CompanyID+'image2',
+            image3:objcompany.CompanyID+'image3',
+            Companydiscription:objcompany.Companydiscription
+           } 
+       
+        const result = await modelcompany.company.updateOne({ CompanyID: objcompany.CompanyID }, { $set: data }, { upsert: true })
+        return result;
+        
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 async function SearchCompany(SerchKey) {
-    const data = await modelcompany.company.find({firstName: { $regex: `^${SerchKey}`, $options: 'i' }, deleted: false,Active:true },{_id:0})
-    return data
+    try {
+        const data = await modelcompany.company.find({firstName: { $regex: `^${SerchKey}`, $options: 'i' }, deleted: false,Active:true },{_id:0})
+        return data
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 async function combiSearchCompany(searchValues) {

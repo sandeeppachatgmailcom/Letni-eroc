@@ -39,6 +39,7 @@ const gettariff = async (req, res) => {
 } 
 
 const posttariffsearch = async (req,res)=>{
+   try {
     req.body.session = req.sessionID;
     let user = ''
     const verify = await HBank.verifyUser(req.body)
@@ -54,41 +55,52 @@ const posttariffsearch = async (req,res)=>{
      const data = await tariffmaster.loadtariff(req.body.searchvalue)
      console.log(req.body.searchvalue)
      res.render('tariff', { data,chkplans,user });
+   } catch (error) {
+    console.log(error);
+   }
 } 
 
 const postsaveCategory = async (req,res)=>{
     
-    console.log(req.body.tariffName);   
-    let result =  await tariffmaster.savecategory(
-        req.body.tariffName,
-        req.body.tariffIndex,
-        req.body.roomRentSingle,
-        req.body.extraPerson,
-        req.body.tax,
-        req.body.includeChild,
-        req.body.defaultCheckinplan,
-        req.body.timestamp,
-        req.body.username,
-        req.body.HSNCode,
-        req.body.itemname
-        );
-        console.log(result.acknowledged);
-        if (result.acknowledged){result = { Saved:true }}
-        else(result = {Saved:false}) 
-        res.json(result)
+   try {
+     console.log(req.body.tariffName);   
+     let result =  await tariffmaster.savecategory(
+         req.body.tariffName,
+         req.body.tariffIndex,
+         req.body.roomRentSingle,
+         req.body.extraPerson,
+         req.body.tax,
+         req.body.includeChild,
+         req.body.defaultCheckinplan,
+         req.body.timestamp,
+         req.body.username,
+         req.body.HSNCode,
+         req.body.itemname
+         );
+         console.log(result.acknowledged);
+         if (result.acknowledged){result = { Saved:true }}
+         else(result = {Saved:false}) 
+         res.json(result)
+   } catch (error) {
+    console.log(error);
+   }
 } 
 const postdeleteTariff=async (req,res)=>{
-    console.log(req.body.tariffIndex)
-    let result = await (tariffmaster.tariff.updateOne({tariffIndex:req.body.tariffIndex},{$set:{deleted:true}}))
-    console.log(result.acknowledged);
-    if(result.acknowledged ){
-        result={deleted:true}
-    }
-    else
-    {
-        result={deleted:false}
-    }
-    res.json(result)
+   try {
+     console.log(req.body.tariffIndex)
+     let result = await (tariffmaster.tariff.updateOne({tariffIndex:req.body.tariffIndex},{$set:{deleted:true}}))
+     console.log(result.acknowledged);
+     if(result.acknowledged ){
+         result={deleted:true}
+     }
+     else
+     {
+         result={deleted:false}
+     }
+     res.json(result)
+   } catch (error) {
+    console.log(error);
+   }
 } 
 
 

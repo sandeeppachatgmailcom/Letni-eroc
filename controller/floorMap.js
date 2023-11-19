@@ -9,10 +9,15 @@ const HBank = require('../functions/humanbank')
 const verifyAccess = require('../middleware/userAccess')
 
 const getRoot = (req,res)=>{
+  try {
     res.redirect('/admin')
+  } catch (error) {
+    console.log(error);
+  }
 } 
 
 const getfloorMap = async (req, res) => {
+   try {
     req.body.session = req.sessionID;
     let user = ''
     const verify = await HBank.verifyUser(req.body)
@@ -23,17 +28,23 @@ const getfloorMap = async (req, res) => {
     else {
        res.redirect('/admin')
     }
-    let rooms = await department.getRoomsWithTariffDetails();
-    let tariff = await tarifftype.loadtariff('')
-    let floor = await floors.loadAllFloor();
+    const rooms = await department.getRoomsWithTariffDetails();
+    const tariff = await tarifftype.loadtariff('')
+    const floor = await floors.loadAllFloor();
     res.render('floorMap', { rooms, tariff,floor,user })
+   } catch (error) {
+    console.log(error);
+   }
 } 
 
 const postAggregatePage = async (req, res) => {
     
-    let result = await getRoomsWithAllDetails(req.body)
-     
-    res.json(result);
+    try {
+        const result = await getRoomsWithAllDetails(req.body)
+        res.json(result);
+    } catch (error) {
+        console.log(error);
+    }
 } 
 
 async function getRoomsWithAllDetails(DataObj) {

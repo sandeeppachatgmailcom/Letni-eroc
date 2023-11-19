@@ -7,6 +7,8 @@ const company = require('../functions/company')
 const frontOffice = require('../functions/checkIn') 
 
 async function getReservationDateWise(fromTime, endTime, companyID, roosObj) {
+  try {
+    
   const startDate = new Date(fromTime);
   const endDate = new Date(endTime);
   const result = [];
@@ -66,12 +68,14 @@ for(const tariff of roosObj ){
  
  
   return  {roosObj,dailyReservation} ;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
-
-
   async function oldgetReservationDateWise(fromTime, endTime, companyID) {
+    try {
+      
     const result = await occupancies.occupancy.aggregate([
       {
         $match: {
@@ -108,16 +112,15 @@ for(const tariff of roosObj ){
     ]);
      
     return result;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
-
-
-
-
-
-
   async function getRoomAvailalability(companyID){
+    try {
+      
     const result =await company.company.findOne({CompanyID:companyID,deleted:false})
     let roomTypes = result.roomtypes;
     if(!roomTypes) roomTypes=''
@@ -127,43 +130,52 @@ for(const tariff of roosObj ){
      
     console.log(roomTypes)
     return roomTypes
+    } catch (error) {
+      console.log(error);
+    }
     }
     
 
 
 async function oldgetRoomAvailalability(companyID){
+  try {
+    
 const result =await rooms.depart.aggregate([{
-    $match:{
-        companyIndex:companyID,
-        deleted:false
-    }
+  $match:{
+      companyIndex:companyID,
+      deleted:false
+  }
 },
 {
-    $group:{
-        _id:{
-            roomType:"$roomType",
-            bookedDate:"$dateString"
-        },
-        roomCount: { $sum: { $cond: [{ $eq: ["$deleted", false] }, 1, 0] } },
-   }
+  $group:{
+      _id:{
+          roomType:"$roomType",
+          bookedDate:"$dateString"
+      },
+      roomCount: { $sum: { $cond: [{ $eq: ["$deleted", false] }, 1, 0] } },
+ }
 },
 {
-    $project:{
-        _id:0,
-        roomType:"$_id.roomType",
-        bookedDate:"$dateString",
-        roomCount:1
-    }
+  $project:{
+      _id:0,
+      roomType:"$_id.roomType",
+      bookedDate:"$dateString",
+      roomCount:1
+  }
 }])
 return result
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
-
-
 async function loadreservationByCustID(custID){
-    const result = await frontOffice.checkIn.find({createUser:custID,delete:false}).sort({ reservationNumber: -1 })
-    return result;
+try {
+  const result = await frontOffice.checkIn.find({createUser:custID,delete:false}).sort({ reservationNumber: -1 })
+  return result;
+} catch (error) {
+  console.log(error);
+}
 }
 
 

@@ -24,17 +24,23 @@ async function comparePassword(newPassword,hashedPassword) {
 }
     
 async function getIndex(CollName) {
-    $inc: { nextIndex: 1 }
-    let result = await serialNumbers.serialNumbers.findOne({ tableName: CollName });
+    try {
+        $inc: { nextIndex: 1 }
+    const result = await serialNumbers.serialNumbers.findOne({ tableName: CollName });
      console.log(result,CollName);
     await serialNumbers.serialNumbers.updateOne({ tableName: CollName }, { $inc: {nextIndex:1} })
     const serialnumber = result.prefix + result.nextIndex;
     return serialnumber;
+    } catch (error) {
+        return (error)
+    }
 }
      
 
     
 function convertToCustomFormat(inputDateTime) {
+    try {
+    
         // Create a Date object from the input date-time string
         const dateObject = new Date(inputDateTime);
     
@@ -52,11 +58,15 @@ function convertToCustomFormat(inputDateTime) {
         const formattedDateTime = `${day}-${month}-${year},${hours}-${minutes}-${seconds}`;
     
         return formattedDateTime;
+} catch (error) {
+    
+}
 }
  
     
 function formatDate(inputDate) {
-        const parts = inputDate.split('-'); // Split the input string by '-'
+        try {
+            const parts = inputDate.split('-'); // Split the input string by '-'
         
         if (parts.length === 3) {
             const yyyy = parts[0];
@@ -71,10 +81,15 @@ function formatDate(inputDate) {
             // Handle invalid input gracefully
             return 'Invalid Date';
         }
+        } catch (error) {
+            
+        }
 }
 
  
 function calculateDays(startDate,endDate){
+    try {
+    
     const graceHours = .5;
     let temp = startDate.split('T');
     const fromdate =new Date(temp[0]);
@@ -90,6 +105,9 @@ function calculateDays(startDate,endDate){
     if(timeDiff>graceHours) diffDays++; 
      
     return diffDays;
+} catch (error) {
+    
+}
 }
 
 module.exports = {getIndex, convertToCustomFormat,encryptPassword,comparePassword,formatDate,calculateDays}

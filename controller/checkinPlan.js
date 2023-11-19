@@ -10,34 +10,44 @@ const CheckinPlan = require('../functions/planMaster')
 const adminController = require('../controller/adminController')
 HBank = require('../functions/humanbank')
 const getRoot = (req,res)=>{
-    res.redirect('/admin')
+    try {
+        
+         res.redirect('/admin')
+    } catch (error) {
+        res.render('error404')
+    }
+   
 } 
 
 
 const postsaveCheckinplan = async(req,res)=>{
-    
-    
-    if (!req.body.planIndex){req.body.planIndex=await adminController.getIndex('CheckinPlan')}
-    console.log(req.body)
-    const data = {
-    planIndex:req.body.planIndex,
-    planName:req.body.planName,
-    shortName:req.body.shortName, 
-    maxPax:req.body.maxPax, 
-    amount:req.body.amount, 
-    extraCharge:req.body.extraCharge, 
-    discription:req.body.discription,
-    Creattime:req.body.Creattime, 
-    user:req.body.user, 
-    LastUpdate:req.body.LastUpdate,
-    deleted:false,
-    }
-    console.log(data);
-    let result = await CheckinPlan.saveCheckinPlan(data) ;
-    res.json(result);
+    try {
+        if (!req.body.planIndex){req.body.planIndex=await adminController.getIndex('CheckinPlan')}
+        console.log(req.body)
+        const data = {
+        planIndex:req.body.planIndex,
+        planName:req.body.planName,
+        shortName:req.body.shortName, 
+        maxPax:req.body.maxPax, 
+        amount:req.body.amount, 
+        extraCharge:req.body.extraCharge, 
+        discription:req.body.discription,
+        Creattime:req.body.Creattime, 
+        user:req.body.user, 
+        LastUpdate:req.body.LastUpdate,
+        deleted:false,
+        }
+        console.log(data);
+        const result = await CheckinPlan.saveCheckinPlan(data) ;
+        res.json(result);
 
+    } catch (error) {
+        console.log(error)
+}
 } 
 const getplan = async (req,res)=>{
+    try {
+        
     req.body.session = req.sessionID;
     let user = ''
     const verify = await HBank.verifyUser(req.body)
@@ -51,10 +61,17 @@ const getplan = async (req,res)=>{
 
     const plans = await CheckinPlan.LoadPlan();
     res.render('checkinPlans',{plans,user})
+    } catch (error) {
+       console.log(error); 
+    }
 } 
 const postdeletePlan = async (req,res)=>{
-    console.log(req.body);
+    try {
+        console.log(req.body);
     const result = await CheckinPlan.deleteCheckinPlan(req.body);
     res.json(result)
+    } catch (error) {
+        console.log(error);
+    }
 } 
 module.exports = {getRoot,postsaveCheckinplan,getplan,postdeletePlan}
