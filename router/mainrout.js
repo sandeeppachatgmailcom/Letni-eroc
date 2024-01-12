@@ -19,11 +19,17 @@ const hotelshomePage = require('../router/hotelHomePage')
 const reservation = require('../router/reservation')
 const admin = require('../router/admin')
 const root = require('../router/root')
+const public = require('../router/public')
 
 
 
 
 router.use(clearCache.clearCache);
+
+router.use('/user',personalProfile)
+router.use('/admin',admin)
+router.use('/public',public)
+
 router.use('/checkin',frontDesk)
 router.use('/frontOffice',frontDesk)
 router.use('/rooms',rooms)
@@ -41,8 +47,6 @@ router.use('/custom',customSearch)
 router.use('/vedurehomepage',hotelshomePage)
 router.use('/hotel',hotelshomePage)
 router.use('/reservation',reservation)
-router.use('/user',personalProfile)
-router.use('/admin',admin)
 router.use('/imageDoc',ImageDoc)
 router.use('/' ,root) 
 

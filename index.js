@@ -7,6 +7,12 @@ const mainroot = require('./router/mainrout');
 const swal = require ('sweetalert');
 const morgan = require('morgan');
 const app = express();
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
 app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(morgan("dev"))

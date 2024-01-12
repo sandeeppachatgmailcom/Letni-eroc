@@ -9,6 +9,7 @@ const admin = require('../functions/admin')
 
 router.post('/activateCompany',admin.postactivateCompany)
 router.get('/',admin.getRoot)
+router.get('/getuser',admin.getUser)
 router.post('/adminLogin',admin.postadminLogin)
 router.post('/disableUser',admin.postdisableUser)
 router.get('/dashboard',admin.getdashboard)
