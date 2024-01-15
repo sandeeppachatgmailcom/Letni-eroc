@@ -23,14 +23,18 @@ function verifyToken (req,res,next){
    }
 }
 function createJwt(payload, secretKey, options = {}) {
-     try {
-        
-       if (typeof payload !== 'object' || Array.isArray(payload)) {
-           throw new Error('Payload must be a plain object.');
-       }
-     } catch (error) {
-        console.log(error);
-     }
+  try {
+    if (typeof payload !== 'object' || Array.isArray(payload)) {
+      throw new Error('Payload must be a plain object.');
+    }
+
+    const token = jwt.sign(payload, secretKey, options);
+    return token;
+  } catch (error) {
+    console.error(error);
+    // Handle the error appropriately, e.g., return an error response
+    throw error;
+  }
 }
  
 module.exports = {verifyToken,createJwt}
