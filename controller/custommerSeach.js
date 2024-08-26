@@ -209,13 +209,14 @@ router.use('/loadPlans',async(req,res)=>{
 })
 const postloadHotelDetails =  async (req, res) => {
     try {
-        
+      console.log('hello reached router')  
     const totalRoomSummary = await ftnReservation.getRoomAvailalability(req.body.hotelId);
     const reservationSummary = await ftnReservation.getReservationDateWise(req.body.StartDate, req.body.EndDate, req.body.hotelId,totalRoomSummary );
      console.log(totalRoomSummary,reservationSummary);
     req.body.CompanySearchKey = req.body.hotelId;
     let result  = await companies.SearchbyCompanyByAny(req.body);
     result.roomtypes =  reservationSummary.roosObj
+    console.log(result)
     res.json(result);
     } catch (error) {
         console.log(error);

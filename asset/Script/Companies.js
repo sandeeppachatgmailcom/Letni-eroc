@@ -516,7 +516,7 @@ function drilldown(iddiv,originsize){
     
 const divclass = document.getElementById(iddiv);
 let height = originsize+'px';
-if(divclass.style.overflow=="hidden"){
+if(divclass?.style?.overflow=="hidden"){
     divclass.style=""
     divclass.style.overflow='';  
     divclass.style.flexWrap="wrap"  
@@ -524,7 +524,7 @@ if(divclass.style.overflow=="hidden"){
     divclass.classList.remove('flex-nowrap')
     console.log(divclass.style,divclass.classList)
 }
-else if (divclass.style.overflow ==""){
+else if (divclass?.style?.overflow ==""){
     divclass.style=""
     divclass.style.overflow='hidden';
     divclass.style.height = height;

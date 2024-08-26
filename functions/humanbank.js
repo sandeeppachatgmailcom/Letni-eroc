@@ -97,11 +97,17 @@ async function verifyUser(userObject) {
     }
     */
     try {
+        
+       
         if (userObject.path == '/verifyUsenameWithPassword') {
             userObject.session = "noactivesession"
+            
         }
+        console.log(userObject,'9999999999999999')
 
-        let user = await ModelHumanResource.HumanResource.findOne({ activeSession: userObject.session }, { password: 0, _id: 0 })
+       // let user = await ModelHumanResource.HumanResource.findOne({ email: userObject.email },{password:0,_id:0})
+       let user = await ModelHumanResource.HumanResource.findOne({ activeSession: userObject.session }, { password: 0, _id: 0 })
+       console.log(user,'user------------V')
         if (userObject.path == '/hotelLogin') {
             user = '';
             await ModelHumanResource.HumanResource.updateOne({ activeSession: userObject.session }, { $set: { activeSession: null } })
@@ -111,6 +117,8 @@ async function verifyUser(userObject) {
             await ModelHumanResource.HumanResource.updateOne({ activeSession: userObject.session }, { $set: { activeSession: null } })
         }
         if (user) {
+            console.log(user,'user------>>>>>>>>>>')
+
             user.companyID = await company.company.findOne({ email: user.email }, { CompanyID: 1, Active: 1, _id: 0 })
             if (!user.companyID) user.companyID = {}
             console.log(user.companyID.Active, 'user.companyID.Active')
@@ -129,20 +137,22 @@ async function verifyUser(userObject) {
         else {
             if (userObject.userName) {
                 let verified = {
-                    verified: '',
-                    email: '',
-                    user: '',
-                    userdetails: '',
-                    userActive: '',
-                    isAdmin: '',
-                    company: '',
-                    companyActive: '',
-                    message: '',
-                    isAdmin: '',
-                    user: '',
+                    verified        : '',
+                    email           : '',
+                    user            : '',
+                    userdetails     : '',
+                    userActive      : '',
+                    isAdmin         : '',
+                    company         : '',
+                    companyActive   : '',
+                    message         : '',
+                    isAdmin         : '',
+                    user            : '',
                 }
+                console.log('first',userObject.userName)
+                const password = await ModelHumanResource.HumanResource.findOne({ email: userObject.userName})
+                console.log(password,'password')
 
-                const password = await ModelHumanResource.HumanResource.findOne({ email: userObject.userName }, { _id: 0 })
                 if (password) {
                     password.companyID = await company.company.findOne({ email: password.email }, { CompanyID: 1, Active: 1, _id: 0 });
                     const otpValidation = await OtpMaster.Otp.findOne({ authorisationname: userObject.userName, verified: false })

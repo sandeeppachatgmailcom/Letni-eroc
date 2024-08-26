@@ -164,8 +164,8 @@ function readmore() {
   async function loadHotelBasedResult(companyID){
     await openModal()
     const data = {
-      StartDate:document.getElementById("idStartDate").value,
-      EndDate:document.getElementById("idEndDate").value,
+      StartDate:document.getElementById("idStartDate").value || new Date(Date.now()),
+      EndDate:document.getElementById("idEndDate").value || new Date(Date.now())+1,
       hotelId:companyID,
       district:document.getElementById("idDitrictName").value,
       GuestCount:document.getElementById("idGuestCount").value?document.getElementById("idGuestCount").value:1,
@@ -175,14 +175,17 @@ function readmore() {
       SelectTariff:document.getElementById("idSelectTariff").value
     }
     let  result = '';
+   
+    console.log('responce reeived',data.StartDate, data.EndDate,data.GuestCount,data.RoomCount)
     if(data.StartDate && data.EndDate&&data.GuestCount&&data.RoomCount){
-       result = await fetch('/custom/loadHotelDetails',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(data)})
+       result = await fetch('/custom/loadHotelBasedResult',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(data)})
       .then(res=>{
+       
         return res.json()
       }).catch(err=>{
         console.log(err);
       }) 
-
+      console.log(result,'first')
   closeModal();
   let innerhtml =' ';
 

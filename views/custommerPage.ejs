@@ -1,13 +1,7 @@
 <%- include('header') %>
 <%- include('MenuBarCustomer') %>
-
-    
-
-      
-
-      
         <div class="container-flex"   style="height:85vh;  background-position: center; background-size: cover;"> 
-            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" style="height:100vh" >
+            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" style="height:100%" >
                   <div class="carousel-inner h-100 bg-secondary">
                     <% comp.forEach((element,index) => { %>
                       <% if (index===0) { %>
@@ -16,7 +10,7 @@
                         <div class="container-fluid w-100 col-lg-6 col-sm-12  rounded border flex-wrap" style="background-color:rgba(86, 99, 86, 0.762);; height: 100px;" >
                              
                             <form id="<%= element.CompanyID %>" action="/custom/customSearch" method="post"> 
-                            <div class="container-fluid col-12 btn d-flex  ">
+                            <div class="container-fluid col-12 btn d-flex rounded-pill  ">
                                 <h6 class="col-lg-2 text-light btn ">Location </h6>
                                     <select class="col-lg-8  btn text-light  fw-lighter"  name="ditrictName" type="text" data-hotels="<%= JSON.stringify(generalData) %>" id="idSearchText<%= element.CompanyID %>" >
                                       <option style="background-color:rgb(86,99,86,.748);font-size: large;" class="col-5 SearchTextBox text-light fw-LIGHTER" value=""> All Cities </option>

@@ -63,7 +63,7 @@ async function login(){
     const data = {userName : document.getElementById('idUserName').value ,
     password : document.getElementById('idUserPassword').value }
     
-    
+    console.log(data,'data')
     const  result = await fetch ('/authenticate/login',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(data)})
     .then( res=>{
         return res.json()
@@ -71,6 +71,7 @@ async function login(){
     .catch(err=>{
         
     })
+    console.log(result,'result')
     window.location.assign("/floorMap/floorMap");
   }
 
@@ -86,6 +87,7 @@ async function login(){
             userName:username,
             password:password
         }
+        
         const result = await fetch('/authenticate/verifyUsenameWithPassword',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(data)})
         .then(res =>{
             return res.json();
@@ -100,11 +102,12 @@ async function login(){
 
 }  
 
-async function validateUserwithPassword(inputusername ,input_Field,outputfield,newpasswordtext,retypePassword){
+async function validateUserwithPassword (inputusername ,input_Field,outputfield,newpasswordtext,retypePassword){
+    
 const result = await verifyuserWithPassword(inputusername,input_Field,outputfield)
  
     if (result.verified) {
-        
+        console.log('success!!!!!!!!!!!!')
         while (document.getElementById(outputfield).classList.length > 0) {
             document.getElementById(outputfield).classList.remove(document.getElementById(outputfield).classList.item(0));
         }
@@ -881,11 +884,11 @@ async function CheckUser() {
 
 
  async function verifyOneTimePassword(email,otp){
-    data ={
-        email:   document.getElementById(email).value,
-        otp :otp
+    const data ={
+        email: document.getElementById(email).value,
+        otp :  otp
     }
-    console.log(otp)
+    console.log(data)
     const result = await fetch('/authenticate/confirmOtp',{method:'post',headers:{"Content-Type":"Application/json"},body:JSON.stringify(data)})
     .then(res=>{
         return res.json()
@@ -905,7 +908,9 @@ async function tryOtp(  passwordDiv,otpDiv,email,idbtResendOtp ){
 
 
 async function validateuserUsingOtp(email,newOtp,alertbtn,newPassword,retypePassword){
-const result = await verifyOneTimePassword(email,newOtp);
+    console.log('email,newOtp,alertbtn,newPassword,retypePassword')
+    const otp = document.getElementById(alertbtn).value
+const result = await verifyOneTimePassword(email,otp);
 if(result.verified){
     document.getElementById(alertbtn).classList.add('btn')
     document.getElementById(alertbtn).classList.add('btn-success')

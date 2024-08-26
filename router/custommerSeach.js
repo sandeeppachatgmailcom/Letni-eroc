@@ -6,6 +6,7 @@ const checkinplans = require('../model/planMaster')
 const customSearch = require('../controller/custommerSeach')
 
 router.post('/loadHotelDetails',customSearch.postloadHotelDetails);
+router.post('/loadHotelBasedResult',customSearch.postloadHotelDetails);
 router.get('/Home',customSearch.getHome)
 router.get('/',customSearch.getRoot)   
 router.post('/viewReservation',customSearch.postviewReservation)

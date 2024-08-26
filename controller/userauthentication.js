@@ -69,13 +69,11 @@ async function userSessionAuthentication(sessionID, username, password) {
 const postcustFetchLogin = async (req,res)=>{
     try {
         req.body.session = req.sessionID;
-    
         const verified =await HBank.verifyUser(req.body)
         if(verified.otp){
             res.render('otp',{verified})
             return
         }
-        
         const user={
             firstName:verified.user,
         }
@@ -88,6 +86,7 @@ const postcustFetchLogin = async (req,res)=>{
     }
     
 }
+ 
 const postcustLogin = async (req,res)=>{
     try {
         req.body.session = req.sessionID;
@@ -126,7 +125,9 @@ const postcustLogin = async (req,res)=>{
     } catch (error) {
         console.log(error);
     }
-} 
+}
+
+
 const getcustLogin = async (req,res)=>{
   try {
       req.body.session = req.sessionID;
@@ -288,8 +289,9 @@ const postverifyUsenameWithPassword =async (req,res)=>{
   try {
       req.body.session = req.sessionID;
       req.body.path= req.path
-      console.log(req.path)
+      console.log(req.path,req.body)
       const result =await HBank.verifyUser(req.body)
+      console.log(result,'result')
       res.json(result)
   } catch (error) {
     console.log(error);
@@ -395,7 +397,7 @@ const postsignup = async (req, res) => {
                 service: "gmail",
                 auth: {
                     user: 'sandeeppachat@gmail.com',
-                    pass: 'gitd fmxg ssed djmu'
+                    pass: 'pjwh gfdx ybus veui'
                 }
             })
             const otp =await randomString.generate({
@@ -404,7 +406,7 @@ const postsignup = async (req, res) => {
             });
             let randomOtp = otp
             const mailOptions = {
-                from: 'info@lajhna.com', // Sender email
+                from: 'sandeeppachat@gmail.com', // Sender email
                 to: req.body.email, // Recipient email
                 subject: 'OTP Verification Code',
                 text: `Your OTP is: ${otp}`,
@@ -488,7 +490,7 @@ const postloadUserCompany = async (req,res)=>{
 const postconfirmOtp = async (req,res)=>{
    try {
     const result =await OTPValidate.validateOtp(req.body.email,req.body.otp,req.sessionID);
-    console.log(req.body.email,req.body.otp,result,'asaasassasasas');
+    console.log(req.body,'asaasassasasas');
     if(result.modifiedCount){
     res.json({verified:true});       
     }

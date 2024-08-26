@@ -13,7 +13,7 @@ async function resendOtp(Email,sessionID){
             service: "gmail",
             auth: {
                 user: 'sandeeppachat@gmail.com',
-                pass: 'gitd fmxg ssed djmu'
+                pass: 'pjwh gfdx ybus veui'
             }
         })
         const otp =await randomString.generate({
@@ -22,7 +22,7 @@ async function resendOtp(Email,sessionID){
         });
          
         const mailOptions = {
-            from: 'info@lajhna.com', // Sender email
+            from: 'sandeeppachat@gmail.com', // Sender email
             to: Email, // Recipient email
             subject: 'OTP Verification Code',
             text: `Your OTP is: ${otp}`,
